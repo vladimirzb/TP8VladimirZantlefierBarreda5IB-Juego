@@ -129,8 +129,8 @@ public class clsJuego {
                     _Jugador.runAction(MoveTo.action(3,verticeX2,verticeY2));
                     break;
                 case 3:
-                    int lowX3 = Math.round(_Pantalla.getWidth()/2) + anchoJugadorArreglador1;
-                    int highX3 = Math.round(_Pantalla.getWidth())-anchoJugadorArreglador1;
+                    int lowX3 =  0 + anchoJugadorArreglador1;
+                    int highX3 =  Math.round(_Pantalla.getWidth()/2)-anchoJugadorArreglador1;
                     int posicionX3 = r.nextInt(highX3-lowX3) + lowX3;
 
                     int lowY3 =  Math.round(_Pantalla.getHeight()/2)+alturaJugadorArreglador1;
@@ -148,7 +148,23 @@ public class clsJuego {
                     _Jugador.runAction(MoveTo.action(3,verticeX3,verticeY3));
                     break;
                 case 4:
-                    // code block
+                    int lowX4 = Math.round(_Pantalla.getWidth()/2) + anchoJugadorArreglador1;
+                    int highX4 = Math.round(_Pantalla.getWidth())-anchoJugadorArreglador1;
+                    int posicionX4 = r.nextInt(highX4-lowX4) + lowX4;
+
+                    int lowY4 =  Math.round(_Pantalla.getHeight()/2)+alturaJugadorArreglador1;
+                    int highY4 = Math.round(_Pantalla.getHeight())-alturaJugadorArreglador1;
+                    int posicionY4 = r.nextInt(highY4-lowY4) + lowY4;
+
+
+                    Log.d("PosicionAperecida", "x:" + posicionX4 + "   y:" + posicionY4);
+
+                    _Jugador.setPosition(posicionX4,posicionY4);
+
+                    //Ahora lo movemos al punto mas lejano de este cuadrante, el 1
+                    float verticeX4=0 + anchoJugadorArreglador1;
+                    float verticeY4= 0+alturaJugadorArreglador1;
+                    _Jugador.runAction(MoveTo.action(3,verticeX4,verticeY4));
                     break;
             }
 
