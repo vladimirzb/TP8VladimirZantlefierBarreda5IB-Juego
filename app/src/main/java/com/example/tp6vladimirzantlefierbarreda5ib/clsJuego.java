@@ -2,6 +2,7 @@ package com.example.tp6vladimirzantlefierbarreda5ib;
 
 import android.util.Log;
 
+import org.cocos2d.actions.interval.MoveTo;
 import org.cocos2d.actions.interval.ScaleBy;
 import org.cocos2d.layers.Layer;
 import org.cocos2d.nodes.Director;
@@ -9,6 +10,8 @@ import org.cocos2d.nodes.Scene;
 import org.cocos2d.nodes.Sprite;
 import org.cocos2d.opengl.CCGLSurfaceView;
 import org.cocos2d.types.CCSize;
+
+import java.util.Random;
 
 public class clsJuego {
     CCGLSurfaceView _VistaDelJuego;
@@ -60,24 +63,56 @@ public class clsJuego {
             Log.d("CapaJuego", "Bob nos construye la capita");
 
             Log.d("CapaJuego", "Voy a ubicar el jugador en su posicion inicial");
-            ponerJugador();
+            super.schedule("ponerJugador",3.0f);
 
             Log.d("CapaJuego", "Ubico al shiba gordo de fondo");
             ponerImagenFondo();
         }
 
-        void ponerJugador()
+        public void ponerJugador(float diferenciaTiempo)
         {
             Log.d("PonerJugador", "Le asigno la imagen grafica al Sprite del jugador");
-            _Jugador= Sprite.sprite("jugador.jpg");
+
 
             Log.d("PonerJugador", "Le pongo su posicion inicial");
-            float posicionX;
-            float posicionY;
 
-            posicionX= _Pantalla.getWidth()/2;
-            posicionY= _Pantalla.getHeight()/2;
-            _Jugador.setPosition(posicionX,posicionY);
+            Random r = new Random();
+            int low = 1;
+            int high = 5;
+            int cuadrante = r.nextInt(high-low) + low;
+
+            switch(cuadrante) {
+                case 1:
+                    int lowX = 0;
+                    int highX = Math.round(_Pantalla.getWidth()/2);
+                    int posicionX1 = r.nextInt(highX-lowX) + lowX;
+
+                    int lowY = 0;
+                    int highY = Math.round(_Pantalla.getHeight()/2);
+                    int posicionY1 = r.nextInt(highY-lowY) + lowY;
+
+
+                    Log.d("PosicionAperecida", "x:" + posicionX1 + "   y:" + posicionY1);
+                    _Jugador= Sprite.sprite("jugador.jpg");
+                    _Jugador.setPosition(posicionX1,posicionY1);
+
+                    //Ahora lo movemos al punto mas lejano de este cuadrante
+                    float verticeX=_Pantalla.getWidth();
+                    float verticeY= _Pantalla.getHeight();
+                    _Jugador.runAction(MoveTo.action(3,verticeX,verticeY));
+
+
+                    break;
+                case 2:
+                    // code block
+                    break;
+                case 3:
+                    // code block
+                    break;
+                case 4:
+                    // code block
+                    break;
+            }
 
             Log.d("PonerJugador", "Lo agrego a la capa");
             super.addChild(_Jugador,10);
