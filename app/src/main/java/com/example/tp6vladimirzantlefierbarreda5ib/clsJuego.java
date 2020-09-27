@@ -5,10 +5,14 @@ import android.util.Log;
 import org.cocos2d.layers.Layer;
 import org.cocos2d.nodes.Director;
 import org.cocos2d.nodes.Scene;
+import org.cocos2d.nodes.Sprite;
 import org.cocos2d.opengl.CCGLSurfaceView;
+import org.cocos2d.types.CCSize;
 
 public class clsJuego {
     CCGLSurfaceView _VistaDelJuego;
+    CCSize _Pantalla;
+    Sprite _Jugador;
 
     public  clsJuego(CCGLSurfaceView VistaDelJuego)
     {
@@ -19,8 +23,10 @@ public class clsJuego {
     public void ComenzarJuego()
     {
         Log.d("Comenzar", "Comienza el juego");
-
         Director.sharedDirector().attachInView(_VistaDelJuego);
+
+        _Pantalla= Director.sharedDirector().displaySize();
+        Log.d("ComenzarJuego", "Pantalla - Ancho: " + _Pantalla.getWidth()+ "- Alto: " + _Pantalla.getHeight());
 
         Log.d("Comenzar", "Declaro e instancio la escena");
         Scene escenaAUsar;
