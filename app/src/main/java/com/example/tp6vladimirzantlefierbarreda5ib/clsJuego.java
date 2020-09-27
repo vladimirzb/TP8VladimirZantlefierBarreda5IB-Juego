@@ -54,6 +54,25 @@ public class clsJuego {
 
     class capaJuego extends Layer{
 
+        public capaJuego()
+        {
+            Log.d("CapaJuego", "Bob nos construye la capita");
+
+            Log.d("CapaJuego", "Voy a ubicar el jugador en su posicion inicial");
+            ponerJugador();
+        }
+
+        void ponerJugador()
+        {
+            Log.d("PonerJugador", "Le asigno la imagen grafica al Sprite del jugador");
+            _Jugador= Sprite.sprite("jugador.jpg");
+
+            Log.d("PonerJugador", "Le pongo su posicion inicial");
+            _Jugador.setPosition(100,300);
+
+            Log.d("PonerJugador", "Lo agrego a la capa");
+            super.addChild(_Jugador);
+        }
 
     }
 }
