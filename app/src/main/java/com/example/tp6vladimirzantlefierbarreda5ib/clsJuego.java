@@ -71,8 +71,11 @@ public class clsJuego {
 
         public void ponerJugador(float diferenciaTiempo)
         {
-            Log.d("PonerJugador", "Le asigno la imagen grafica al Sprite del jugador");
 
+            Log.d("PonerJugador", "Le asigno la imagen grafica al Sprite del jugador");
+            _Jugador= Sprite.sprite("jugador.jpg");
+            int alturaJugadorArreglador1= Math.round(_Jugador.getHeight()/2);
+            int anchoJugadorArreglador1= Math.round(_Jugador.getWidth()/2);
 
             Log.d("PonerJugador", "Le pongo su posicion inicial");
 
@@ -81,30 +84,33 @@ public class clsJuego {
             int high = 5;
             int cuadrante = r.nextInt(high-low) + low;
 
+            //Numeros de cuadrantes
+            //3 4 //
+            //1 2 //
             switch(cuadrante) {
                 case 1:
-                    int lowX = 0;
-                    int highX = Math.round(_Pantalla.getWidth()/2);
-                    int posicionX1 = r.nextInt(highX-lowX) + lowX;
+                    int lowX1 = 0 + anchoJugadorArreglador1;
+                    int highX1 = Math.round(_Pantalla.getWidth()/2)-anchoJugadorArreglador1;
+                    int posicionX1 = r.nextInt(highX1-lowX1) + lowX1;
 
-                    int lowY = 0;
-                    int highY = Math.round(_Pantalla.getHeight()/2);
-                    int posicionY1 = r.nextInt(highY-lowY) + lowY;
+                    int lowY1 = 0+alturaJugadorArreglador1;
+                    int highY1 = Math.round(_Pantalla.getHeight()/2)-alturaJugadorArreglador1;
+                    int posicionY1 = r.nextInt(highY1-lowY1) + lowY1;
 
 
                     Log.d("PosicionAperecida", "x:" + posicionX1 + "   y:" + posicionY1);
-                    _Jugador= Sprite.sprite("jugador.jpg");
+
                     _Jugador.setPosition(posicionX1,posicionY1);
 
                     //Ahora lo movemos al punto mas lejano de este cuadrante
-                    float verticeX=_Pantalla.getWidth();
-                    float verticeY= _Pantalla.getHeight();
-                    _Jugador.runAction(MoveTo.action(3,verticeX,verticeY));
+                    float verticeX1=_Pantalla.getWidth()-anchoJugadorArreglador1;
+                    float verticeY1= _Pantalla.getHeight()-alturaJugadorArreglador1;
+                    _Jugador.runAction(MoveTo.action(3,verticeX1,verticeY1));
 
 
                     break;
                 case 2:
-                    // code block
+
                     break;
                 case 3:
                     // code block
