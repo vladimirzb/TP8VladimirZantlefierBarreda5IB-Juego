@@ -68,7 +68,9 @@ public class clsJuego {
             _listaSprites = new ArrayList();
 
             Log.d("CapaJuego", "Voy a ubicar el jugador en su posicion inicial");
+
             super.schedule("ponerJugador",3.0f);
+
 
             Log.d("CapaJuego", "Ubico al shiba gordo de fondo");
             ponerImagenFondo();
@@ -77,96 +79,101 @@ public class clsJuego {
         public void ponerJugador(float diferenciaTiempo)
         {
 
-            Log.d("PonerJugador", "Le asigno la imagen grafica al Sprite del jugador");
-            _Jugador= Sprite.sprite("jugador.jpg");
-            int alturaJugadorArreglador1= Math.round(_Jugador.getHeight()/2);
-            int anchoJugadorArreglador1= Math.round(_Jugador.getWidth()/2);
+            if (_listaSprites.size()<2)
+            {
+                Log.d("PonerJugador", "Le asigno la imagen grafica al Sprite del jugador");
+                _Jugador= Sprite.sprite("jugador.jpg");
+                int alturaJugadorArreglador1= Math.round(_Jugador.getHeight()/2);
+                int anchoJugadorArreglador1= Math.round(_Jugador.getWidth()/2);
 
-            Log.d("PonerJugador", "Le pongo su posicion inicial");
+                Log.d("PonerJugador", "Le pongo su posicion inicial");
 
-            Random r = new Random();
-            int low = 1;
-            int high = 5;
-            int cuadrante = r.nextInt(high-low) + low;
+                Random r = new Random();
+                int low = 1;
+                int high = 5;
+                int cuadrante = r.nextInt(high-low) + low;
 
-            //Numeros de cuadrantes
-            //3 4 //
-            //1 2 //
-            //Numeros de cuadrante voy a utilizar cuadrantes como en el TP 5 ya que me permite que jamas salga de la pantalla la imagen
-            switch(cuadrante) {
-                case 1:
-                    Log.d("Cuadrante", "La imagen de pos random aparecion en el cuadrante 1");
-                    int lowX1 = 0 + anchoJugadorArreglador1;
-                    int highX1 = Math.round(_Pantalla.getWidth()/2)-anchoJugadorArreglador1;
-                    int posicionX1 = r.nextInt(highX1-lowX1) + lowX1;
+                //Numeros de cuadrantes
+                //3 4 //
+                //1 2 //
+                //Numeros de cuadrante voy a utilizar cuadrantes como en el TP 5 ya que me permite que jamas salga de la pantalla la imagen
+                switch(cuadrante) {
+                    case 1:
+                        Log.d("Cuadrante", "La imagen de pos random aparecion en el cuadrante 1");
+                        int lowX1 = 0 + anchoJugadorArreglador1;
+                        int highX1 = Math.round(_Pantalla.getWidth() / 2) - anchoJugadorArreglador1;
+                        int posicionX1 = r.nextInt(highX1 - lowX1) + lowX1;
 
-                    int lowY1 = 0+alturaJugadorArreglador1;
-                    int highY1 = Math.round(_Pantalla.getHeight()/2)-alturaJugadorArreglador1;
-                    int posicionY1 = r.nextInt(highY1-lowY1) + lowY1;
-
-
-                    Log.d("PosicionAperecida", "x:" + posicionX1 + "   y:" + posicionY1);
-
-                    _Jugador.setPosition(posicionX1,posicionY1);
+                        int lowY1 = 0 + alturaJugadorArreglador1;
+                        int highY1 = Math.round(_Pantalla.getHeight() / 2) - alturaJugadorArreglador1;
+                        int posicionY1 = r.nextInt(highY1 - lowY1) + lowY1;
 
 
-                    break;
-                case 2:
-                    Log.d("Cuadrante", "La imagen de pos random aparecion en el cuadrante 2");
-                    int lowX2 = Math.round(_Pantalla.getWidth()/2) + anchoJugadorArreglador1;
-                    int highX2 = Math.round(_Pantalla.getWidth())-anchoJugadorArreglador1;
-                    int posicionX2 = r.nextInt(highX2-lowX2) + lowX2;
+                        Log.d("PosicionAperecida", "x:" + posicionX1 + "   y:" + posicionY1);
 
-                    int lowY2 = 0+alturaJugadorArreglador1;
-                    int highY2 = Math.round(_Pantalla.getHeight()/2)-alturaJugadorArreglador1;
-                    int posicionY2 = r.nextInt(highY2-lowY2) + lowY2;
+                        _Jugador.setPosition(posicionX1, posicionY1);
 
 
-                    Log.d("PosicionAperecida", "x:" + posicionX2 + "   y:" + posicionY2);
+                        break;
+                    case 2:
+                        Log.d("Cuadrante", "La imagen de pos random aparecion en el cuadrante 2");
+                        int lowX2 = Math.round(_Pantalla.getWidth() / 2) + anchoJugadorArreglador1;
+                        int highX2 = Math.round(_Pantalla.getWidth()) - anchoJugadorArreglador1;
+                        int posicionX2 = r.nextInt(highX2 - lowX2) + lowX2;
 
-                    _Jugador.setPosition(posicionX2,posicionY2);
-
-                    break;
-                case 3:
-                    Log.d("Cuadrante", "La imagen de pos random aparecion en el cuadrante 3");
-                    int lowX3 =  0 + anchoJugadorArreglador1;
-                    int highX3 =  Math.round(_Pantalla.getWidth()/2)-anchoJugadorArreglador1;
-                    int posicionX3 = r.nextInt(highX3-lowX3) + lowX3;
-
-                    int lowY3 =  Math.round(_Pantalla.getHeight()/2)+alturaJugadorArreglador1;
-                    int highY3 = Math.round(_Pantalla.getHeight())-alturaJugadorArreglador1;
-                    int posicionY3 = r.nextInt(highY3-lowY3) + lowY3;
+                        int lowY2 = 0 + alturaJugadorArreglador1;
+                        int highY2 = Math.round(_Pantalla.getHeight() / 2) - alturaJugadorArreglador1;
+                        int posicionY2 = r.nextInt(highY2 - lowY2) + lowY2;
 
 
-                    Log.d("PosicionAperecida", "x:" + posicionX3 + "   y:" + posicionY3);
+                        Log.d("PosicionAperecida", "x:" + posicionX2 + "   y:" + posicionY2);
 
-                    _Jugador.setPosition(posicionX3,posicionY3);
+                        _Jugador.setPosition(posicionX2, posicionY2);
 
-                    break;
-                case 4:
-                    Log.d("Cuadrante", "La imagen de pos random aparecion en el cuadrante 4");
-                    int lowX4 = Math.round(_Pantalla.getWidth()/2) + anchoJugadorArreglador1;
-                    int highX4 = Math.round(_Pantalla.getWidth())-anchoJugadorArreglador1;
-                    int posicionX4 = r.nextInt(highX4-lowX4) + lowX4;
+                        break;
+                    case 3:
+                        Log.d("Cuadrante", "La imagen de pos random aparecion en el cuadrante 3");
+                        int lowX3 = 0 + anchoJugadorArreglador1;
+                        int highX3 = Math.round(_Pantalla.getWidth() / 2) - anchoJugadorArreglador1;
+                        int posicionX3 = r.nextInt(highX3 - lowX3) + lowX3;
 
-                    int lowY4 =  Math.round(_Pantalla.getHeight()/2)+alturaJugadorArreglador1;
-                    int highY4 = Math.round(_Pantalla.getHeight())-alturaJugadorArreglador1;
-                    int posicionY4 = r.nextInt(highY4-lowY4) + lowY4;
+                        int lowY3 = Math.round(_Pantalla.getHeight() / 2) + alturaJugadorArreglador1;
+                        int highY3 = Math.round(_Pantalla.getHeight()) - alturaJugadorArreglador1;
+                        int posicionY3 = r.nextInt(highY3 - lowY3) + lowY3;
 
 
-                    Log.d("PosicionAperecida", "x:" + posicionX4 + "   y:" + posicionY4);
+                        Log.d("PosicionAperecida", "x:" + posicionX3 + "   y:" + posicionY3);
 
-                    _Jugador.setPosition(posicionX4,posicionY4);
+                        _Jugador.setPosition(posicionX3, posicionY3);
 
-                    break;
+                        break;
+                    case 4:
+                        Log.d("Cuadrante", "La imagen de pos random aparecion en el cuadrante 4");
+                        int lowX4 = Math.round(_Pantalla.getWidth() / 2) + anchoJugadorArreglador1;
+                        int highX4 = Math.round(_Pantalla.getWidth()) - anchoJugadorArreglador1;
+                        int posicionX4 = r.nextInt(highX4 - lowX4) + lowX4;
+
+                        int lowY4 = Math.round(_Pantalla.getHeight() / 2) + alturaJugadorArreglador1;
+                        int highY4 = Math.round(_Pantalla.getHeight()) - alturaJugadorArreglador1;
+                        int posicionY4 = r.nextInt(highY4 - lowY4) + lowY4;
+
+
+                        Log.d("PosicionAperecida", "x:" + posicionX4 + "   y:" + posicionY4);
+
+                        _Jugador.setPosition(posicionX4, posicionY4);
+
+                        break;
+                    }
+                Log.d("PonerJugador" ,  "Lo agrego al array");
+                _listaSprites.add(_Jugador);
+                Log.d("PonerJugador" ,  "Sprites en el array:" + _listaSprites.size());
+
+                Log.d("PonerJugador", "Lo agrego a la capa");
+                super.addChild(_Jugador,10);
+
             }
 
-            Log.d("PonerJugador" ,  "Lo agrego al array");
-            _listaSprites.add(_Jugador);
-            Log.d("PonerJugador" ,  "Sprites en el array:" + _listaSprites.size());
 
-            Log.d("PonerJugador", "Lo agrego a la capa");
-            super.addChild(_Jugador,10);
         }
 
         void ponerImagenFondo(){
