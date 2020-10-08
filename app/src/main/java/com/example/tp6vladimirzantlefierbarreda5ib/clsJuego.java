@@ -11,12 +11,14 @@ import org.cocos2d.nodes.Sprite;
 import org.cocos2d.opengl.CCGLSurfaceView;
 import org.cocos2d.types.CCSize;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class clsJuego {
     CCGLSurfaceView _VistaDelJuego;
     CCSize _Pantalla;
     Sprite _Jugador;
+    ArrayList _listaSprites;
 
     public  clsJuego(CCGLSurfaceView VistaDelJuego)
     {
@@ -62,6 +64,9 @@ public class clsJuego {
         {
             Log.d("CapaJuego", "Bob nos construye la capita");
 
+            Log.d("CapaJuego", "Inicializo el arraylist de sprites");
+            _listaSprites = new ArrayList();
+
             Log.d("CapaJuego", "Voy a ubicar el jugador en su posicion inicial");
             super.schedule("ponerJugador",3.0f);
 
@@ -87,8 +92,10 @@ public class clsJuego {
             //Numeros de cuadrantes
             //3 4 //
             //1 2 //
+            //Numeros de cuadrante voy a utilizar cuadrantes como en el TP 5 ya que me permite que jamas salga de la pantalla la imagen
             switch(cuadrante) {
                 case 1:
+                    Log.d("Cuadrante", "La imagen de pos random aparecion en el cuadrante 1");
                     int lowX1 = 0 + anchoJugadorArreglador1;
                     int highX1 = Math.round(_Pantalla.getWidth()/2)-anchoJugadorArreglador1;
                     int posicionX1 = r.nextInt(highX1-lowX1) + lowX1;
@@ -102,14 +109,10 @@ public class clsJuego {
 
                     _Jugador.setPosition(posicionX1,posicionY1);
 
-                    //Ahora lo movemos al punto mas lejano de este cuadrante, el 4
-                    float verticeX1=_Pantalla.getWidth()-anchoJugadorArreglador1;
-                    float verticeY1= _Pantalla.getHeight()-alturaJugadorArreglador1;
-                    _Jugador.runAction(MoveTo.action(3,verticeX1,verticeY1));
-
 
                     break;
                 case 2:
+                    Log.d("Cuadrante", "La imagen de pos random aparecion en el cuadrante 2");
                     int lowX2 = Math.round(_Pantalla.getWidth()/2) + anchoJugadorArreglador1;
                     int highX2 = Math.round(_Pantalla.getWidth())-anchoJugadorArreglador1;
                     int posicionX2 = r.nextInt(highX2-lowX2) + lowX2;
@@ -123,12 +126,9 @@ public class clsJuego {
 
                     _Jugador.setPosition(posicionX2,posicionY2);
 
-                    //Ahora lo movemos al punto mas lejano de este cuadrante, el 3
-                    float verticeX2=0+ anchoJugadorArreglador1;
-                    float verticeY2= _Pantalla.getHeight()-alturaJugadorArreglador1;
-                    _Jugador.runAction(MoveTo.action(3,verticeX2,verticeY2));
                     break;
                 case 3:
+                    Log.d("Cuadrante", "La imagen de pos random aparecion en el cuadrante 3");
                     int lowX3 =  0 + anchoJugadorArreglador1;
                     int highX3 =  Math.round(_Pantalla.getWidth()/2)-anchoJugadorArreglador1;
                     int posicionX3 = r.nextInt(highX3-lowX3) + lowX3;
@@ -142,12 +142,9 @@ public class clsJuego {
 
                     _Jugador.setPosition(posicionX3,posicionY3);
 
-                    //Ahora lo movemos al punto mas lejano de este cuadrante, el 2
-                    float verticeX3=_Pantalla.getWidth() - anchoJugadorArreglador1;
-                    float verticeY3= 0+alturaJugadorArreglador1;
-                    _Jugador.runAction(MoveTo.action(3,verticeX3,verticeY3));
                     break;
                 case 4:
+                    Log.d("Cuadrante", "La imagen de pos random aparecion en el cuadrante 4");
                     int lowX4 = Math.round(_Pantalla.getWidth()/2) + anchoJugadorArreglador1;
                     int highX4 = Math.round(_Pantalla.getWidth())-anchoJugadorArreglador1;
                     int posicionX4 = r.nextInt(highX4-lowX4) + lowX4;
@@ -161,12 +158,12 @@ public class clsJuego {
 
                     _Jugador.setPosition(posicionX4,posicionY4);
 
-                    //Ahora lo movemos al punto mas lejano de este cuadrante, el 1
-                    float verticeX4=0 + anchoJugadorArreglador1;
-                    float verticeY4= 0+alturaJugadorArreglador1;
-                    _Jugador.runAction(MoveTo.action(3,verticeX4,verticeY4));
                     break;
             }
+
+            Log.d("PonerJugador" ,  "Lo agrego al array");
+            _listaSprites.add(_Jugador);
+            Log.d("PonerJugador" ,  "Sprites en el array:" + _listaSprites.size());
 
             Log.d("PonerJugador", "Lo agrego a la capa");
             super.addChild(_Jugador,10);
@@ -190,5 +187,84 @@ public class clsJuego {
 
             super.addChild(imagenFondo,-10);
         }
+    }
+
+    public boolean InterseccionEntreSprites(Sprite Sprite1,
+                                            Sprite Sprite2) {
+        Boolean HayInterseccion=false;
+//Determino los bordes de cada Sprite
+        Float Sp1Arriba, Sp1Abajo, Sp1Derecha, Sp1Izquierda,
+                Sp2Arriba, Sp2Abajo, Sp2Derecha, Sp2Izquierda;
+
+        Sp1Arriba=Sprite1.getPositionY() +
+                Sprite1.getHeight()/2;
+        Sp1Abajo=Sprite1.getPositionY() -
+                Sprite1.getHeight()/2;
+        Sp1Derecha=Sprite1.getPositionX() +
+                Sprite1.getWidth()/2;
+        Sp1Izquierda=Sprite1.getPositionX() -
+                Sprite1.getWidth()/2;
+        Sp2Arriba=Sprite2.getPositionY() +
+                Sprite2.getHeight()/2;
+        Sp2Abajo=Sprite2.getPositionY() -
+                Sprite2.getHeight()/2;
+        Sp2Derecha=Sprite2.getPositionX() +
+                Sprite2.getWidth()/2;
+        Sp2Izquierda=Sprite2.getPositionX() -
+                Sprite2.getWidth()/2;
+        Log.d("IntEntSprites", "Sp1 Arr: "+Sp1Arriba+" - Ab: "+Sp1Abajo+" - Der: "+Sp1Derecha+" - Izq: "+Sp1Izquierda);
+        Log.d("IntEntSprites", "Sp2 Arr: "+Sp2Arriba+" - Ab: "+Sp2Abajo+" - Der: "+Sp2Derecha+" - Izq: "+Sp2Izquierda);
+
+//Me fijo si el vértice superior derecho de Sp1 está dentro de Sp2
+        if (Sp1Arriba>=Sp2Abajo && Sp1Arriba<=Sp2Arriba &&
+                Sp1Derecha>=Sp2Izquierda && Sp1Derecha<=Sp2Derecha) {
+            HayInterseccion=true;
+            Log.d("IntEntSprites", "Intersección caso 1");
+        }
+//Me fijo si el vértice superior izquierdo de Sp1 está dentro de Sp2
+        if (Sp1Arriba>=Sp2Abajo && Sp1Arriba<=Sp2Arriba &&
+                Sp1Izquierda>=Sp2Izquierda && Sp1Izquierda<=Sp2Derecha) {
+            HayInterseccion=true;
+            Log.d("IntEntSprites", "Intersección caso 2");
+        }
+//Me fijo si el vértice inferior derecho de Sp1 está dentro de Sp2
+        if (Sp1Abajo>=Sp2Abajo && Sp1Abajo<=Sp2Arriba &&
+                Sp1Derecha>=Sp2Izquierda && Sp1Derecha<=Sp2Derecha) {
+            HayInterseccion=true;
+            Log.d("IntEntSprites", "Intersección caso 3");
+        }
+//Me fijo si el vértice inferior izquierdo de Sp1 está dentro de Sp2
+
+        if (Sp1Abajo>=Sp2Abajo && Sp1Abajo<=Sp2Arriba &&
+                Sp1Izquierda>=Sp2Izquierda && Sp1Izquierda<=Sp2Derecha) {
+            HayInterseccion=true;
+            Log.d("IntEntSprites", "Intersección caso 4");
+        }
+//Me fijo si el vértice superior derecho de Sp2 esta dentro de Sp1
+        if (Sp2Arriba>=Sp1Abajo && Sp2Arriba<=Sp1Arriba &&
+                Sp2Derecha>=Sp1Izquierda && Sp2Derecha<=Sp1Derecha) {
+            HayInterseccion=true;
+            Log.d("IntEntSprites", "Intersección caso 5");
+        }
+//Me fijo si el vértice superior izquierdo de Sp1 está dentro de Sp2
+        if (Sp2Arriba>=Sp1Abajo && Sp2Arriba<=Sp1Arriba &&
+                Sp2Izquierda>=Sp1Izquierda && Sp2Izquierda<=Sp1Derecha) {
+            HayInterseccion=true;
+            Log.d("IntEntSprites", "Intersección caso 6");
+        }
+//Me fijo si el vértice inferior derecho de Sp1 está dentro de Sp2
+        if (Sp2Abajo>=Sp1Abajo && Sp2Abajo<=Sp1Arriba &&
+                Sp2Derecha>=Sp1Izquierda && Sp2Derecha<=Sp1Derecha) {
+            HayInterseccion=true;
+            Log.d("IntEntSprites", "Intersección caso 7");
+        }
+//Me fijo si el vértice inferior izquierdo de Sp1 está dentro de Sp2
+        if (Sp2Abajo>=Sp1Abajo && Sp2Abajo<=Sp1Arriba &&
+                Sp2Izquierda>=Sp1Izquierda && Sp2Izquierda<=Sp1Derecha) {
+            HayInterseccion=true;
+            Log.d("IntEntSprites", "Intersección caso 8");
+        }
+        Log.d("IntEntSprites", "Hay intersección: "+HayInterseccion);
+        return HayInterseccion;
     }
 }
