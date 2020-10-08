@@ -74,6 +74,10 @@ public class clsJuego {
 
             Log.d("CapaJuego", "Ubico al shiba gordo de fondo");
             ponerImagenFondo();
+
+            Log.d("CapaJuego", "Inicio el verificador de colisiones");
+            super.schedule("detectarColisiones", 0.25f);
+
         }
 
         public void ponerJugador(float diferenciaTiempo)
@@ -175,7 +179,118 @@ public class clsJuego {
 
 
         }
+        public void detectarColisiones(float deltaTiempo)
+        {
+            Log.d("DetectarColisiones", "Me fijo si algun enemigo choco al jugador");
+            boolean huboColision;
+            huboColision=false;
 
+            ArrayList spritesQueImpactaron;
+            spritesQueImpactaron= new ArrayList();
+
+
+            for (int punteroSprite=0; punteroSprite<_listaSprites.size(); punteroSprite++){
+                Log.d("DetectarColisiones", "Verifico el enemigo numero" + punteroSprite);
+
+                Sprite unSpriteAVerificar;
+                unSpriteAVerificar= (Sprite) _listaSprites.get(punteroSprite);
+                if(InterseccionEntreSprites(_Jugador,unSpriteAVerificar)){
+                    huboColision=true;
+                    super.removeChild(unSpriteAVerificar,true);
+                    spritesQueImpactaron.add(punteroSprite);
+                }
+            }
+
+            if (huboColision==true)
+            {
+                Log.d("DetectarColisiones", "Hubo una colision");
+
+                for (int punteroSprite=spritesQueImpactaron.size()-1; punteroSprite>=0; punteroSprite--)
+                {
+                    _listaSprites.remove(punteroSprite);
+                }
+                Log.d("DetectarColisiones", "Me quedan:" + _listaSprites.size());
+            }
+
+        }
+        public boolean InterseccionEntreSprites(Sprite Sprite1,
+                                                Sprite Sprite2) {
+            Boolean HayInterseccion=false;
+//Determino los bordes de cada Sprite
+            Float Sp1Arriba, Sp1Abajo, Sp1Derecha, Sp1Izquierda,
+                    Sp2Arriba, Sp2Abajo, Sp2Derecha, Sp2Izquierda;
+
+            Sp1Arriba=Sprite1.getPositionY() +
+                    Sprite1.getHeight()/2;
+            Sp1Abajo=Sprite1.getPositionY() -
+                    Sprite1.getHeight()/2;
+            Sp1Derecha=Sprite1.getPositionX() +
+                    Sprite1.getWidth()/2;
+            Sp1Izquierda=Sprite1.getPositionX() -
+                    Sprite1.getWidth()/2;
+            Sp2Arriba=Sprite2.getPositionY() +
+                    Sprite2.getHeight()/2;
+            Sp2Abajo=Sprite2.getPositionY() -
+                    Sprite2.getHeight()/2;
+            Sp2Derecha=Sprite2.getPositionX() +
+                    Sprite2.getWidth()/2;
+            Sp2Izquierda=Sprite2.getPositionX() -
+                    Sprite2.getWidth()/2;
+            Log.d("IntEntSprites", "Sp1 Arr: "+Sp1Arriba+" - Ab: "+Sp1Abajo+" - Der: "+Sp1Derecha+" - Izq: "+Sp1Izquierda);
+            Log.d("IntEntSprites", "Sp2 Arr: "+Sp2Arriba+" - Ab: "+Sp2Abajo+" - Der: "+Sp2Derecha+" - Izq: "+Sp2Izquierda);
+
+//Me fijo si el vértice superior derecho de Sp1 está dentro de Sp2
+            if (Sp1Arriba>=Sp2Abajo && Sp1Arriba<=Sp2Arriba &&
+                    Sp1Derecha>=Sp2Izquierda && Sp1Derecha<=Sp2Derecha) {
+                HayInterseccion=true;
+                Log.d("IntEntSprites", "Intersección caso 1");
+            }
+//Me fijo si el vértice superior izquierdo de Sp1 está dentro de Sp2
+            if (Sp1Arriba>=Sp2Abajo && Sp1Arriba<=Sp2Arriba &&
+                    Sp1Izquierda>=Sp2Izquierda && Sp1Izquierda<=Sp2Derecha) {
+                HayInterseccion=true;
+                Log.d("IntEntSprites", "Intersección caso 2");
+            }
+//Me fijo si el vértice inferior derecho de Sp1 está dentro de Sp2
+            if (Sp1Abajo>=Sp2Abajo && Sp1Abajo<=Sp2Arriba &&
+                    Sp1Derecha>=Sp2Izquierda && Sp1Derecha<=Sp2Derecha) {
+                HayInterseccion=true;
+                Log.d("IntEntSprites", "Intersección caso 3");
+            }
+//Me fijo si el vértice inferior izquierdo de Sp1 está dentro de Sp2
+
+            if (Sp1Abajo>=Sp2Abajo && Sp1Abajo<=Sp2Arriba &&
+                    Sp1Izquierda>=Sp2Izquierda && Sp1Izquierda<=Sp2Derecha) {
+                HayInterseccion=true;
+                Log.d("IntEntSprites", "Intersección caso 4");
+            }
+//Me fijo si el vértice superior derecho de Sp2 esta dentro de Sp1
+            if (Sp2Arriba>=Sp1Abajo && Sp2Arriba<=Sp1Arriba &&
+                    Sp2Derecha>=Sp1Izquierda && Sp2Derecha<=Sp1Derecha) {
+                HayInterseccion=true;
+                Log.d("IntEntSprites", "Intersección caso 5");
+            }
+//Me fijo si el vértice superior izquierdo de Sp1 está dentro de Sp2
+            if (Sp2Arriba>=Sp1Abajo && Sp2Arriba<=Sp1Arriba &&
+                    Sp2Izquierda>=Sp1Izquierda && Sp2Izquierda<=Sp1Derecha) {
+                HayInterseccion=true;
+                Log.d("IntEntSprites", "Intersección caso 6");
+            }
+//Me fijo si el vértice inferior derecho de Sp1 está dentro de Sp2
+            if (Sp2Abajo>=Sp1Abajo && Sp2Abajo<=Sp1Arriba &&
+                    Sp2Derecha>=Sp1Izquierda && Sp2Derecha<=Sp1Derecha) {
+                HayInterseccion=true;
+                Log.d("IntEntSprites", "Intersección caso 7");
+            }
+//Me fijo si el vértice inferior izquierdo de Sp1 está dentro de Sp2
+            if (Sp2Abajo>=Sp1Abajo && Sp2Abajo<=Sp1Arriba &&
+                    Sp2Izquierda>=Sp1Izquierda && Sp2Izquierda<=Sp1Derecha) {
+                HayInterseccion=true;
+                Log.d("IntEntSprites", "Intersección caso 8");
+            }
+            Log.d("IntEntSprites", "Hay intersección: "+HayInterseccion);
+            return HayInterseccion;
+        }
         void ponerImagenFondo(){
             Sprite imagenFondo;
             Log.d("PonerFondo","Asigno el fondo del shiba gordito al sprite");
@@ -196,82 +311,6 @@ public class clsJuego {
         }
     }
 
-    public boolean InterseccionEntreSprites(Sprite Sprite1,
-                                            Sprite Sprite2) {
-        Boolean HayInterseccion=false;
-//Determino los bordes de cada Sprite
-        Float Sp1Arriba, Sp1Abajo, Sp1Derecha, Sp1Izquierda,
-                Sp2Arriba, Sp2Abajo, Sp2Derecha, Sp2Izquierda;
 
-        Sp1Arriba=Sprite1.getPositionY() +
-                Sprite1.getHeight()/2;
-        Sp1Abajo=Sprite1.getPositionY() -
-                Sprite1.getHeight()/2;
-        Sp1Derecha=Sprite1.getPositionX() +
-                Sprite1.getWidth()/2;
-        Sp1Izquierda=Sprite1.getPositionX() -
-                Sprite1.getWidth()/2;
-        Sp2Arriba=Sprite2.getPositionY() +
-                Sprite2.getHeight()/2;
-        Sp2Abajo=Sprite2.getPositionY() -
-                Sprite2.getHeight()/2;
-        Sp2Derecha=Sprite2.getPositionX() +
-                Sprite2.getWidth()/2;
-        Sp2Izquierda=Sprite2.getPositionX() -
-                Sprite2.getWidth()/2;
-        Log.d("IntEntSprites", "Sp1 Arr: "+Sp1Arriba+" - Ab: "+Sp1Abajo+" - Der: "+Sp1Derecha+" - Izq: "+Sp1Izquierda);
-        Log.d("IntEntSprites", "Sp2 Arr: "+Sp2Arriba+" - Ab: "+Sp2Abajo+" - Der: "+Sp2Derecha+" - Izq: "+Sp2Izquierda);
 
-//Me fijo si el vértice superior derecho de Sp1 está dentro de Sp2
-        if (Sp1Arriba>=Sp2Abajo && Sp1Arriba<=Sp2Arriba &&
-                Sp1Derecha>=Sp2Izquierda && Sp1Derecha<=Sp2Derecha) {
-            HayInterseccion=true;
-            Log.d("IntEntSprites", "Intersección caso 1");
-        }
-//Me fijo si el vértice superior izquierdo de Sp1 está dentro de Sp2
-        if (Sp1Arriba>=Sp2Abajo && Sp1Arriba<=Sp2Arriba &&
-                Sp1Izquierda>=Sp2Izquierda && Sp1Izquierda<=Sp2Derecha) {
-            HayInterseccion=true;
-            Log.d("IntEntSprites", "Intersección caso 2");
-        }
-//Me fijo si el vértice inferior derecho de Sp1 está dentro de Sp2
-        if (Sp1Abajo>=Sp2Abajo && Sp1Abajo<=Sp2Arriba &&
-                Sp1Derecha>=Sp2Izquierda && Sp1Derecha<=Sp2Derecha) {
-            HayInterseccion=true;
-            Log.d("IntEntSprites", "Intersección caso 3");
-        }
-//Me fijo si el vértice inferior izquierdo de Sp1 está dentro de Sp2
-
-        if (Sp1Abajo>=Sp2Abajo && Sp1Abajo<=Sp2Arriba &&
-                Sp1Izquierda>=Sp2Izquierda && Sp1Izquierda<=Sp2Derecha) {
-            HayInterseccion=true;
-            Log.d("IntEntSprites", "Intersección caso 4");
-        }
-//Me fijo si el vértice superior derecho de Sp2 esta dentro de Sp1
-        if (Sp2Arriba>=Sp1Abajo && Sp2Arriba<=Sp1Arriba &&
-                Sp2Derecha>=Sp1Izquierda && Sp2Derecha<=Sp1Derecha) {
-            HayInterseccion=true;
-            Log.d("IntEntSprites", "Intersección caso 5");
-        }
-//Me fijo si el vértice superior izquierdo de Sp1 está dentro de Sp2
-        if (Sp2Arriba>=Sp1Abajo && Sp2Arriba<=Sp1Arriba &&
-                Sp2Izquierda>=Sp1Izquierda && Sp2Izquierda<=Sp1Derecha) {
-            HayInterseccion=true;
-            Log.d("IntEntSprites", "Intersección caso 6");
-        }
-//Me fijo si el vértice inferior derecho de Sp1 está dentro de Sp2
-        if (Sp2Abajo>=Sp1Abajo && Sp2Abajo<=Sp1Arriba &&
-                Sp2Derecha>=Sp1Izquierda && Sp2Derecha<=Sp1Derecha) {
-            HayInterseccion=true;
-            Log.d("IntEntSprites", "Intersección caso 7");
-        }
-//Me fijo si el vértice inferior izquierdo de Sp1 está dentro de Sp2
-        if (Sp2Abajo>=Sp1Abajo && Sp2Abajo<=Sp1Arriba &&
-                Sp2Izquierda>=Sp1Izquierda && Sp2Izquierda<=Sp1Derecha) {
-            HayInterseccion=true;
-            Log.d("IntEntSprites", "Intersección caso 8");
-        }
-        Log.d("IntEntSprites", "Hay intersección: "+HayInterseccion);
-        return HayInterseccion;
-    }
 }
