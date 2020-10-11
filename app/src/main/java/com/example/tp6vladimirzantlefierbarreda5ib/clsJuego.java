@@ -464,10 +464,18 @@ public class clsJuego {
             if (_estaTocandoAlJugador)
             {
                 moverJugador(xTocada,yTocada);
+                if (InterseccionEntreSprites(_Jugador,_Jugador2))
+                {
+                    Log.d("COLLIDER","El jugador1 toco jugador2");
+                }
             }
             if (_estaTocandoAlJugador2)
             {
                 moverJugador2(xTocada,yTocada);
+                if (InterseccionEntreSprites(_Jugador,_Jugador2))
+                {
+                    Log.d("COLLIDER","El jugador2 toco jugador1");
+                }
             }
             return true;
         }
