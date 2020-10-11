@@ -17,6 +17,7 @@ import java.util.Random;
 
 public class clsJuego {
     CCGLSurfaceView _VistaDelJuego;
+    Boolean _estaTocandoAlJugador;
     CCSize _Pantalla;
     Sprite _Jugador;
     Sprite _Jugador2;
@@ -382,6 +383,31 @@ public class clsJuego {
             Log.d("IntEntSprites", "Hay intersección: "+HayInterseccion);
             return HayInterseccion;
         }
+        public boolean InterseccionEntrePuntoySprite(Sprite SpriteAVerificar,
+            Float puntoXAVerificar, Float puntoYAVerificar) {
+            Boolean HayInterseccion=false;
+            //Determino los bordes de cada Sprite
+            Float SpArriba, SpAbajo, SpDerecha, SpIzquierda;
+            SpArriba=SpriteAVerificar.getPositionY() +
+                    SpriteAVerificar.getHeight()/2;
+            SpAbajo=SpriteAVerificar.getPositionY() -
+                    SpriteAVerificar.getHeight()/2;
+            SpDerecha=SpriteAVerificar.getPositionX() +
+                    SpriteAVerificar.getWidth()/2;
+            SpIzquierda=SpriteAVerificar.getPositionX() -
+                    SpriteAVerificar.getWidth()/2;
+
+            Log.d("IntEntSpriteYPunto", "Sp Arr: "+SpArriba+" - Ab: "+SpAbajo+" - Der: "+SpDerecha+" - Izq:"+SpIzquierda);
+            Log.d("IntEntSpriteYPunto", "X: "+puntoXAVerificar+" - Y: "+puntoYAVerificar);
+
+            if (puntoXAVerificar>=SpIzquierda &&
+                    puntoXAVerificar<=SpDerecha && puntoYAVerificar>=SpAbajo
+                    && puntoYAVerificar<=SpArriba) {
+                HayInterseccion=true;
+            }
+            Log.d("IntEntSpriteYPunto", "Hay intersección: "+HayInterseccion);
+            return HayInterseccion;
+        }
         void ponerImagenFondo(){
             Sprite imagenFondo;
             Log.d("PonerFondo","Asigno el fondo del shiba gordito al sprite");
@@ -406,8 +432,15 @@ public class clsJuego {
             float xTocada, yTocada;
             xTocada= event.getX();
             yTocada=_Pantalla.getHeight()-event.getY();
-            Log.d("ControlDeToque","COmeinza toque: X:" + xTocada+ " - Y:" + yTocada);
-            moverJugador(xTocada,yTocada);
+            Log.d("ControlDeToque","Comienza toque: X:" + xTocada+ " - Y:" + yTocada);
+            if (InterseccionEntrePuntoySprite(_Jugador, xTocada, yTocada))
+            {
+                moverJugador(xTocada,yTocada);
+                _estaTocandoAlJugador=true;
+            }
+            else {
+                _estaTocandoAlJugador=false;
+            }
             return true;
         }
 
@@ -417,7 +450,10 @@ public class clsJuego {
             xTocada= event.getX();
             yTocada=_Pantalla.getHeight()-event.getY();
             Log.d("ControlDeToque","Mueve toque: X:" + xTocada+ " - Y:" + yTocada);
-            moverJugador(xTocada,yTocada);
+            if (_estaTocandoAlJugador)
+            {
+                moverJugador(xTocada,yTocada);
+            }
             return true;
         }
 
@@ -427,6 +463,7 @@ public class clsJuego {
             xTocada= event.getX();
             yTocada=_Pantalla.getHeight()-event.getY();
             Log.d("ControlDeToque","Final del toque: X:" + xTocada+ " - Y:" + yTocada);
+            _estaTocandoAlJugador=false;
             return true;
         }
 
