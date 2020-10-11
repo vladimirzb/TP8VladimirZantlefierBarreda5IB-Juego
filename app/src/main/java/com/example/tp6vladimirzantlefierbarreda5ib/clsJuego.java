@@ -1,6 +1,7 @@
 package com.example.tp6vladimirzantlefierbarreda5ib;
 
 import android.util.Log;
+import android.view.MotionEvent;
 
 import org.cocos2d.actions.interval.MoveTo;
 import org.cocos2d.actions.interval.ScaleBy;
@@ -77,6 +78,9 @@ public class clsJuego {
 
 //            Log.d("CapaJuego", "Inicio el verificador de colisiones");
 //            super.schedule("detectarColisiones", 0.25f);
+
+            Log.d("CapaJuego", "Habilito el touch");
+            setIsTouchEnabled(true);
 
         }
 
@@ -396,7 +400,43 @@ public class clsJuego {
 
             super.addChild(imagenFondo,-10);
         }
+
+        @Override
+        public boolean ccTouchesBegan(MotionEvent event) {
+            float xTocada, yTocada;
+            xTocada= event.getX();
+            yTocada=_Pantalla.getHeight()-event.getY();
+            Log.d("ControlDeToque","COmeinza toque: X:" + xTocada+ " - Y:" + yTocada);
+            moverJugador(xTocada,yTocada);
+            return true;
+        }
+
+        @Override
+        public boolean ccTouchesMoved(MotionEvent event) {
+            float xTocada, yTocada;
+            xTocada= event.getX();
+            yTocada=_Pantalla.getHeight()-event.getY();
+            Log.d("ControlDeToque","Mueve toque: X:" + xTocada+ " - Y:" + yTocada);
+            moverJugador(xTocada,yTocada);
+            return true;
+        }
+
+        @Override
+        public boolean ccTouchesEnded(MotionEvent event) {
+            float xTocada, yTocada;
+            xTocada= event.getX();
+            yTocada=_Pantalla.getHeight()-event.getY();
+            Log.d("ControlDeToque","Final del toque: X:" + xTocada+ " - Y:" + yTocada);
+            return true;
+        }
+
+        void moverJugador(float xAmover, float yAmover)
+        {
+            Log.d("MoverJugador" , "Me pidieron que me ubique en X:" +xAmover + "Y:" + yAmover);
+            _Jugador.setPosition(xAmover,yAmover);
+        }
     }
+
 
 
 
