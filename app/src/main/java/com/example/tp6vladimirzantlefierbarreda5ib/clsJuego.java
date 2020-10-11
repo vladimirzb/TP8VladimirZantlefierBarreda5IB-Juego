@@ -18,6 +18,7 @@ import java.util.Random;
 public class clsJuego {
     CCGLSurfaceView _VistaDelJuego;
     Boolean _estaTocandoAlJugador;
+    Boolean _estaTocandoAlJugador2;
     CCSize _Pantalla;
     Sprite _Jugador;
     Sprite _Jugador2;
@@ -441,6 +442,16 @@ public class clsJuego {
             else {
                 _estaTocandoAlJugador=false;
             }
+
+            if (InterseccionEntrePuntoySprite(_Jugador2, xTocada, yTocada))
+            {
+                moverJugador2(xTocada,yTocada);
+                _estaTocandoAlJugador2=true;
+            }
+            else {
+                _estaTocandoAlJugador2=false;
+            }
+
             return true;
         }
 
@@ -454,6 +465,10 @@ public class clsJuego {
             {
                 moverJugador(xTocada,yTocada);
             }
+            if (_estaTocandoAlJugador2)
+            {
+                moverJugador2(xTocada,yTocada);
+            }
             return true;
         }
 
@@ -463,7 +478,15 @@ public class clsJuego {
             xTocada= event.getX();
             yTocada=_Pantalla.getHeight()-event.getY();
             Log.d("ControlDeToque","Final del toque: X:" + xTocada+ " - Y:" + yTocada);
-            _estaTocandoAlJugador=false;
+            if (_estaTocandoAlJugador==true)
+            {
+                _estaTocandoAlJugador=false;
+            }
+
+            if (_estaTocandoAlJugador2==true)
+            {
+                _estaTocandoAlJugador2=false;
+            }
             return true;
         }
 
@@ -471,6 +494,12 @@ public class clsJuego {
         {
             Log.d("MoverJugador" , "Me pidieron que me ubique en X:" +xAmover + "Y:" + yAmover);
             _Jugador.setPosition(xAmover,yAmover);
+        }
+
+        void moverJugador2(float xAmover, float yAmover)
+        {
+            Log.d("MoverJugador" , "Me pidieron que me ubique en X:" +xAmover + "Y:" + yAmover);
+            _Jugador2.setPosition(xAmover,yAmover);
         }
     }
 
