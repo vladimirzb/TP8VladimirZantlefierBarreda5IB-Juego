@@ -1,6 +1,7 @@
 package com.example.tp6vladimirzantlefierbarreda5ib;
 
 import android.util.Log;
+import android.view.MotionEvent;
 
 import org.cocos2d.actions.interval.MoveTo;
 import org.cocos2d.actions.interval.ScaleBy;
@@ -16,6 +17,8 @@ import java.util.Random;
 
 public class clsJuego {
     CCGLSurfaceView _VistaDelJuego;
+    Boolean _estaTocandoAlJugador;
+    Boolean _estaTocandoAlJugador2;
     CCSize _Pantalla;
     Sprite _Jugador;
     Sprite _Jugador2;
@@ -77,6 +80,9 @@ public class clsJuego {
 
 //            Log.d("CapaJuego", "Inicio el verificador de colisiones");
 //            super.schedule("detectarColisiones", 0.25f);
+
+            Log.d("CapaJuego", "Habilito el touch");
+            setIsTouchEnabled(true);
 
         }
 
@@ -378,6 +384,31 @@ public class clsJuego {
             Log.d("IntEntSprites", "Hay intersección: "+HayInterseccion);
             return HayInterseccion;
         }
+        public boolean InterseccionEntrePuntoySprite(Sprite SpriteAVerificar,
+            Float puntoXAVerificar, Float puntoYAVerificar) {
+            Boolean HayInterseccion=false;
+            //Determino los bordes de cada Sprite
+            Float SpArriba, SpAbajo, SpDerecha, SpIzquierda;
+            SpArriba=SpriteAVerificar.getPositionY() +
+                    SpriteAVerificar.getHeight()/2;
+            SpAbajo=SpriteAVerificar.getPositionY() -
+                    SpriteAVerificar.getHeight()/2;
+            SpDerecha=SpriteAVerificar.getPositionX() +
+                    SpriteAVerificar.getWidth()/2;
+            SpIzquierda=SpriteAVerificar.getPositionX() -
+                    SpriteAVerificar.getWidth()/2;
+
+            Log.d("IntEntSpriteYPunto", "Sp Arr: "+SpArriba+" - Ab: "+SpAbajo+" - Der: "+SpDerecha+" - Izq:"+SpIzquierda);
+            Log.d("IntEntSpriteYPunto", "X: "+puntoXAVerificar+" - Y: "+puntoYAVerificar);
+
+            if (puntoXAVerificar>=SpIzquierda &&
+                    puntoXAVerificar<=SpDerecha && puntoYAVerificar>=SpAbajo
+                    && puntoYAVerificar<=SpArriba) {
+                HayInterseccion=true;
+            }
+            Log.d("IntEntSpriteYPunto", "Hay intersección: "+HayInterseccion);
+            return HayInterseccion;
+        }
         void ponerImagenFondo(){
             Sprite imagenFondo;
             Log.d("PonerFondo","Asigno el fondo del shiba gordito al sprite");
@@ -396,7 +427,82 @@ public class clsJuego {
 
             super.addChild(imagenFondo,-10);
         }
+
+        @Override
+        public boolean ccTouchesBegan(MotionEvent event) {
+            float xTocada, yTocada;
+            xTocada= event.getX();
+            yTocada=_Pantalla.getHeight()-event.getY();
+            Log.d("ControlDeToque","Comienza toque: X:" + xTocada+ " - Y:" + yTocada);
+            if (InterseccionEntrePuntoySprite(_Jugador, xTocada, yTocada))
+            {
+                moverJugador(xTocada,yTocada);
+                _estaTocandoAlJugador=true;
+            }
+            else {
+                _estaTocandoAlJugador=false;
+            }
+
+            if (InterseccionEntrePuntoySprite(_Jugador2, xTocada, yTocada))
+            {
+                moverJugador2(xTocada,yTocada);
+                _estaTocandoAlJugador2=true;
+            }
+            else {
+                _estaTocandoAlJugador2=false;
+            }
+
+            return true;
+        }
+
+        @Override
+        public boolean ccTouchesMoved(MotionEvent event) {
+            float xTocada, yTocada;
+            xTocada= event.getX();
+            yTocada=_Pantalla.getHeight()-event.getY();
+            Log.d("ControlDeToque","Mueve toque: X:" + xTocada+ " - Y:" + yTocada);
+            if (_estaTocandoAlJugador)
+            {
+                moverJugador(xTocada,yTocada);
+            }
+            if (_estaTocandoAlJugador2)
+            {
+                moverJugador2(xTocada,yTocada);
+            }
+            return true;
+        }
+
+        @Override
+        public boolean ccTouchesEnded(MotionEvent event) {
+            float xTocada, yTocada;
+            xTocada= event.getX();
+            yTocada=_Pantalla.getHeight()-event.getY();
+            Log.d("ControlDeToque","Final del toque: X:" + xTocada+ " - Y:" + yTocada);
+            if (_estaTocandoAlJugador==true)
+            {
+                _estaTocandoAlJugador=false;
+            }
+
+            if (_estaTocandoAlJugador2==true)
+            {
+                _estaTocandoAlJugador2=false;
+            }
+            return true;
+        }
+
+        void moverJugador(float xAmover, float yAmover)
+        {
+            Log.d("MoverJugador" , "Me pidieron que me ubique en X:" +xAmover + "Y:" + yAmover);
+            _Jugador.setPosition(xAmover,yAmover);
+        }
+
+        void moverJugador2(float xAmover, float yAmover)
+        {
+            Log.d("MoverJugador" , "Me pidieron que me ubique en X:" +xAmover + "Y:" + yAmover);
+            _Jugador2.setPosition(xAmover,yAmover);
+        }
     }
+
 
 
 
