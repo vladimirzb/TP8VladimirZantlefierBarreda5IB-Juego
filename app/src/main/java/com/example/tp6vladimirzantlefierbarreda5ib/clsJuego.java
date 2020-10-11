@@ -3,8 +3,11 @@ package com.example.tp6vladimirzantlefierbarreda5ib;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import org.cocos2d.actions.interval.IntervalAction;
+import org.cocos2d.actions.interval.MoveBy;
 import org.cocos2d.actions.interval.MoveTo;
 import org.cocos2d.actions.interval.ScaleBy;
+import org.cocos2d.actions.interval.Sequence;
 import org.cocos2d.layers.Layer;
 import org.cocos2d.nodes.Director;
 import org.cocos2d.nodes.Scene;
@@ -467,6 +470,16 @@ public class clsJuego {
                 if (InterseccionEntreSprites(_Jugador,_Jugador2))
                 {
                     Log.d("COLLIDER","El jugador1 toco jugador2");
+                    Log.d("COLLIDER","Activo la secuncia jugador 2");
+                    MoveBy moverseArriba, moverseAbajo, moverseDerecha, moverseIzquierda;
+                    moverseArriba= MoveBy.action(1,0,300);
+                    moverseAbajo= MoveBy.action(1,0,-300);
+                    moverseDerecha= MoveBy.action(1,200,0);
+                    moverseIzquierda= MoveBy.action(1,-200,0);
+
+                    IntervalAction secuenciaEnFormaCuadrado;
+                    secuenciaEnFormaCuadrado= Sequence.actions(moverseArriba,moverseDerecha,moverseAbajo,moverseIzquierda);
+                    _Jugador2.runAction(secuenciaEnFormaCuadrado);
                 }
             }
             if (_estaTocandoAlJugador2)
@@ -475,6 +488,17 @@ public class clsJuego {
                 if (InterseccionEntreSprites(_Jugador,_Jugador2))
                 {
                     Log.d("COLLIDER","El jugador2 toco jugador1");
+                    Log.d("COLLIDER","Activo la secuncia jugador 1");
+                    MoveBy moverseArriba, moverseAbajo, moverseDerecha, moverseIzquierda;
+                    moverseArriba= MoveBy.action(1,0,300);
+                    moverseAbajo= MoveBy.action(1,0,-300);
+                    moverseDerecha= MoveBy.action(1,200,0);
+                    moverseIzquierda= MoveBy.action(1,-200,0);
+
+                    IntervalAction secuenciaEnFormaCuadrado;
+                    secuenciaEnFormaCuadrado= Sequence.actions(moverseArriba,moverseDerecha,moverseAbajo,moverseIzquierda);
+                    _Jugador.runAction(secuenciaEnFormaCuadrado);
+
                 }
             }
             return true;
