@@ -21,10 +21,9 @@ import java.util.Random;
 public class clsJuego {
     CCGLSurfaceView _VistaDelJuego;
     Boolean _estaTocandoAlJugador;
-    Boolean _estaTocandoAlJugador2;
     CCSize _Pantalla;
     Sprite _Jugador;
-    Sprite _Jugador2;
+    Sprite _Enemigo;
     ArrayList _listaSprites;
 
     public  clsJuego(CCGLSurfaceView VistaDelJuego)
@@ -74,8 +73,8 @@ public class clsJuego {
             Log.d("CapaJuego", "Voy a ubicar el jugador en su posicion inicial");
             ponerJugador(3f);
 
-            Log.d("CapaJuego", "Voy a ubicar el segundo jugador en su posicion inicial");
-            ponerJugador2(3f);
+            Log.d("CapaJuego", "LLamo al schedule del enemigo");
+            super.schedule("ponerEnemigo",3.0f);
 
 
             Log.d("CapaJuego", "Ubico al shiba gordo de fondo");
@@ -91,188 +90,118 @@ public class clsJuego {
 
         public void ponerJugador(float diferenciaTiempo)
         {
-                Log.d("PonerJugador", "Le asigno la imagen grafica al Sprite del jugador");
-                _Jugador= Sprite.sprite("jugador.jpg");
-                int alturaJugadorArreglador1= Math.round(_Jugador.getHeight()/2);
-                int anchoJugadorArreglador1= Math.round(_Jugador.getWidth()/2);
-
-                Log.d("PonerJugador", "Le pongo su posicion inicial");
-
-                Random r = new Random();
-                int low = 1;
-                int high = 5;
-                int cuadrante = r.nextInt(high-low) + low;
-
-                //Numeros de cuadrantes
-                //3 4 //
-                //1 2 //
-                //Numeros de cuadrante voy a utilizar cuadrantes como en el TP 5 ya que me permite que jamas salga de la pantalla la imagen
-                switch(cuadrante) {
-                    case 1:
-                        Log.d("Cuadrante", "La imagen de pos random aparecion en el cuadrante 1");
-                        int lowX1 = 0 + anchoJugadorArreglador1;
-                        int highX1 = Math.round(_Pantalla.getWidth() / 2) - anchoJugadorArreglador1;
-                        int posicionX1 = r.nextInt(highX1 - lowX1) + lowX1;
-
-                        int lowY1 = 0 + alturaJugadorArreglador1;
-                        int highY1 = Math.round(_Pantalla.getHeight() / 2) - alturaJugadorArreglador1;
-                        int posicionY1 = r.nextInt(highY1 - lowY1) + lowY1;
+            Log.d("PonerJugador", "Le asigno la imagen grafica al Sprite del jugador");
+            _Jugador= Sprite.sprite("jugador.jpg");
+            int alturaJugadorArreglador1= Math.round(_Jugador.getHeight()/2);
+            int anchoJugadorArreglador1= Math.round(_Jugador.getWidth()/2);
 
 
-                        Log.d("PosicionAperecida", "x:" + posicionX1 + "   y:" + posicionY1);
-
-                        _Jugador.setPosition(posicionX1, posicionY1);
-
-
-                        break;
-                    case 2:
-                        Log.d("Cuadrante", "La imagen de pos random aparecion en el cuadrante 2");
-                        int lowX2 = Math.round(_Pantalla.getWidth() / 2) + anchoJugadorArreglador1;
-                        int highX2 = Math.round(_Pantalla.getWidth()) - anchoJugadorArreglador1;
-                        int posicionX2 = r.nextInt(highX2 - lowX2) + lowX2;
-
-                        int lowY2 = 0 + alturaJugadorArreglador1;
-                        int highY2 = Math.round(_Pantalla.getHeight() / 2) - alturaJugadorArreglador1;
-                        int posicionY2 = r.nextInt(highY2 - lowY2) + lowY2;
+            Log.d("PonerJugador", "Le pongo su posicion inicial");
+            int posicionX1 = Math.round(_Pantalla.getWidth() / 2);
+            int posicionY1 = Math.round(_Pantalla.getHeight() / 2);
+            _Jugador.setPosition(posicionX1, posicionY1);
 
 
-                        Log.d("PosicionAperecida", "x:" + posicionX2 + "   y:" + posicionY2);
-
-                        _Jugador.setPosition(posicionX2, posicionY2);
-
-                        break;
-                    case 3:
-                        Log.d("Cuadrante", "La imagen de pos random aparecion en el cuadrante 3");
-                        int lowX3 = 0 + anchoJugadorArreglador1;
-                        int highX3 = Math.round(_Pantalla.getWidth() / 2) - anchoJugadorArreglador1;
-                        int posicionX3 = r.nextInt(highX3 - lowX3) + lowX3;
-
-                        int lowY3 = Math.round(_Pantalla.getHeight() / 2) + alturaJugadorArreglador1;
-                        int highY3 = Math.round(_Pantalla.getHeight()) - alturaJugadorArreglador1;
-                        int posicionY3 = r.nextInt(highY3 - lowY3) + lowY3;
-
-
-                        Log.d("PosicionAperecida", "x:" + posicionX3 + "   y:" + posicionY3);
-
-                        _Jugador.setPosition(posicionX3, posicionY3);
-
-                        break;
-                    case 4:
-                        Log.d("Cuadrante", "La imagen de pos random aparecion en el cuadrante 4");
-                        int lowX4 = Math.round(_Pantalla.getWidth() / 2) + anchoJugadorArreglador1;
-                        int highX4 = Math.round(_Pantalla.getWidth()) - anchoJugadorArreglador1;
-                        int posicionX4 = r.nextInt(highX4 - lowX4) + lowX4;
-
-                        int lowY4 = Math.round(_Pantalla.getHeight() / 2) + alturaJugadorArreglador1;
-                        int highY4 = Math.round(_Pantalla.getHeight()) - alturaJugadorArreglador1;
-                        int posicionY4 = r.nextInt(highY4 - lowY4) + lowY4;
-
-
-                        Log.d("PosicionAperecida", "x:" + posicionX4 + "   y:" + posicionY4);
-
-                        _Jugador.setPosition(posicionX4, posicionY4);
-
-                        break;
-                    }
-
-                Log.d("PonerJugador", "Lo agrego a la capa");
-                super.addChild(_Jugador,10);
+            Log.d("PonerJugador", "Lo agrego a la capa");
+            super.addChild(_Jugador,10);
 
 
         }
 
-        public void ponerJugador2(float diferenciaTiempo)
+        public void ponerEnemigo(float diferenciaTiempo)
         {
 
-                Log.d("PonerJugador", "Le asigno la imagen grafica al Sprite del jugador");
-                _Jugador2= Sprite.sprite("jugador.jpg");
-                int alturaJugadorArreglador1= Math.round(_Jugador2.getHeight()/2);
-                int anchoJugadorArreglador1= Math.round(_Jugador2.getWidth()/2);
+            Log.d("PonerJugador", "Le asigno la imagen grafica al Sprite del jugador");
+            _Enemigo= Sprite.sprite("jugador.jpg");
+            int alturaJugadorArreglador1= Math.round(_Enemigo.getHeight()/2);
+            int anchoJugadorArreglador1= Math.round(_Enemigo.getWidth()/2);
 
-                Log.d("PonerJugador", "Le pongo su posicion inicial");
+            Log.d("PonerJugador", "Le pongo su posicion inicial");
 
-                Random r = new Random();
-                int low = 1;
-                int high = 5;
-                int cuadrante = r.nextInt(high-low) + low;
+              Random r = new Random();
+            int low = 1;
+            int high = 5;
+            int cuadrante = r.nextInt(high-low) + low;
 
-                //Numeros de cuadrantes
-                //3 4 //
-                //1 2 //
-                //Numeros de cuadrante voy a utilizar cuadrantes como en el TP 5 ya que me permite que jamas salga de la pantalla la imagen
-                do {
-                    switch(cuadrante) {
-                        case 1:
-                            Log.d("Cuadrante", "La imagen de pos random aparecion en el cuadrante 1");
-                            int lowX1 = 0 + anchoJugadorArreglador1;
-                            int highX1 = Math.round(_Pantalla.getWidth() / 2) - anchoJugadorArreglador1;
-                            int posicionX1 = r.nextInt(highX1 - lowX1) + lowX1;
+            ///HARDCODEADO
+//            int cuadrante= 4;
 
-                            int lowY1 = 0 + alturaJugadorArreglador1;
-                            int highY1 = Math.round(_Pantalla.getHeight() / 2) - alturaJugadorArreglador1;
-                            int posicionY1 = r.nextInt(highY1 - lowY1) + lowY1;
+            //Numeros de cuadrantes LOGICA MODIFICADA DE LOS TPS ANTERIORES, enemigos aparecen afuera de la pantalla (cuadrado representa pantalla)
+               //1
+            ////////
+        //4 //    //  //2
+            //    //
+            ////////
+              //3
+            //Numeros de cuadrante voy a utilizar cuadrantes como en el TP 5 ya que me permite que jamas salga de la pantalla la imagen
 
+            switch(cuadrante) {
+                case 1:
+                    Log.d("Cuadrante", "El sprite enemigo aparecion en el cuadrante 1");
+                    int lowX1 = 0 + anchoJugadorArreglador1;
+                    int highX1 = Math.round(_Pantalla.getWidth()) - anchoJugadorArreglador1;
+                    int posicionX1 = r.nextInt(highX1 - lowX1) + lowX1;
 
-                            Log.d("PosicionAperecida", "x:" + posicionX1 + "   y:" + posicionY1);
-
-                            _Jugador2.setPosition(posicionX1, posicionY1);
-
-
-                            break;
-                        case 2:
-                            Log.d("Cuadrante", "La imagen de pos random aparecion en el cuadrante 2");
-                            int lowX2 = Math.round(_Pantalla.getWidth() / 2) + anchoJugadorArreglador1;
-                            int highX2 = Math.round(_Pantalla.getWidth()) - anchoJugadorArreglador1;
-                            int posicionX2 = r.nextInt(highX2 - lowX2) + lowX2;
-
-                            int lowY2 = 0 + alturaJugadorArreglador1;
-                            int highY2 = Math.round(_Pantalla.getHeight() / 2) - alturaJugadorArreglador1;
-                            int posicionY2 = r.nextInt(highY2 - lowY2) + lowY2;
+                    int posicionY1 = Math.round(_Pantalla.getHeight()) + alturaJugadorArreglador1 ;
 
 
-                            Log.d("PosicionAperecida", "x:" + posicionX2 + "   y:" + posicionY2);
+                    Log.d("PosicionAperecida", "x:" + posicionX1 + "   y:" + posicionY1);
 
-                            _Jugador2.setPosition(posicionX2, posicionY2);
-
-                            break;
-                        case 3:
-                            Log.d("Cuadrante", "La imagen de pos random aparecion en el cuadrante 3");
-                            int lowX3 = 0 + anchoJugadorArreglador1;
-                            int highX3 = Math.round(_Pantalla.getWidth() / 2) - anchoJugadorArreglador1;
-                            int posicionX3 = r.nextInt(highX3 - lowX3) + lowX3;
-
-                            int lowY3 = Math.round(_Pantalla.getHeight() / 2) + alturaJugadorArreglador1;
-                            int highY3 = Math.round(_Pantalla.getHeight()) - alturaJugadorArreglador1;
-                            int posicionY3 = r.nextInt(highY3 - lowY3) + lowY3;
+                    _Enemigo.setPosition(posicionX1, posicionY1);
 
 
-                            Log.d("PosicionAperecida", "x:" + posicionX3 + "   y:" + posicionY3);
+                    break;
+                case 2:
+                    Log.d("Cuadrante", "El sprite enemigo aparecion en el cuadrante 2");
+                    int posicionX2 = Math.round(_Pantalla.getWidth()) + anchoJugadorArreglador1;
 
-                            _Jugador2.setPosition(posicionX3, posicionY3);
-
-                            break;
-                        case 4:
-                            Log.d("Cuadrante", "La imagen de pos random aparecion en el cuadrante 4");
-                            int lowX4 = Math.round(_Pantalla.getWidth() / 2) + anchoJugadorArreglador1;
-                            int highX4 = Math.round(_Pantalla.getWidth()) - anchoJugadorArreglador1;
-                            int posicionX4 = r.nextInt(highX4 - lowX4) + lowX4;
-
-                            int lowY4 = Math.round(_Pantalla.getHeight() / 2) + alturaJugadorArreglador1;
-                            int highY4 = Math.round(_Pantalla.getHeight()) - alturaJugadorArreglador1;
-                            int posicionY4 = r.nextInt(highY4 - lowY4) + lowY4;
+                    int lowY2 = 0 + alturaJugadorArreglador1;
+                    int highY2 = Math.round(_Pantalla.getHeight()) - alturaJugadorArreglador1;
+                    int posicionY2 = r.nextInt(highY2 - lowY2) + lowY2;
 
 
-                            Log.d("PosicionAperecida", "x:" + posicionX4 + "   y:" + posicionY4);
+                    Log.d("PosicionAperecida", "x:" + posicionX2 + "   y:" + posicionY2);
 
-                            _Jugador2.setPosition(posicionX4, posicionY4);
+                    _Enemigo.setPosition(posicionX2, posicionY2);
 
-                            break;
-                    }
+                    break;
+                case 3:
+                    Log.d("Cuadrante", "El sprite enemigo aparecion en el cuadrante 3");
+                    int lowX3 = 0 + anchoJugadorArreglador1;
+                    int highX3 = Math.round(_Pantalla.getWidth()) - anchoJugadorArreglador1;
+                    int posicionX3 = r.nextInt(highX3 - lowX3) + lowX3;
 
-                }while (InterseccionEntreSprites(_Jugador,_Jugador2) == true);
+                    int posicionY3 = 0 - alturaJugadorArreglador1 ;
 
-                Log.d("PonerJugador2", "Lo agrego a la capa");
-                super.addChild(_Jugador2,10);
+
+                    Log.d("PosicionAperecida", "x:" + posicionX3 + "   y:" + posicionY3);
+
+                    _Enemigo.setPosition(posicionX3, posicionY3);
+
+                    break;
+                case 4:
+                    Log.d("Cuadrante", "El sprite enemigo aparecion en el cuadrante 4");
+                    int posicionX4 = 0 - anchoJugadorArreglador1;
+
+                    int lowY4 = 0 + alturaJugadorArreglador1;
+                    int highY4 = Math.round(_Pantalla.getHeight()) - alturaJugadorArreglador1;
+                    int posicionY4 = r.nextInt(highY4 - lowY4) + lowY4;
+
+
+                    Log.d("PosicionAperecida", "x:" + posicionX4 + "   y:" + posicionY4);
+
+                    _Enemigo.setPosition(posicionX4, posicionY4);
+
+
+                    break;
+            }
+
+            Log.d("PonerEnemigo", "Lo agrego a la capa");
+            float posX =  _Jugador.getPositionX();
+            float posY = _Jugador.getPositionY();
+            _Enemigo.runAction(MoveTo.action(3,posX,posY));
+            super.addChild(_Enemigo,10);
+            
         }
 
         public void detectarColisiones(float deltaTiempo)
@@ -312,7 +241,7 @@ public class clsJuego {
         public boolean InterseccionEntreSprites(Sprite Sprite1,
                                                 Sprite Sprite2) {
             Boolean HayInterseccion=false;
-//Determino los bordes de cada Sprite
+            //Determino los bordes de cada Sprite
             Float Sp1Arriba, Sp1Abajo, Sp1Derecha, Sp1Izquierda,
                     Sp2Arriba, Sp2Abajo, Sp2Derecha, Sp2Izquierda;
 
@@ -335,50 +264,49 @@ public class clsJuego {
             Log.d("IntEntSprites", "Sp1 Arr: "+Sp1Arriba+" - Ab: "+Sp1Abajo+" - Der: "+Sp1Derecha+" - Izq: "+Sp1Izquierda);
             Log.d("IntEntSprites", "Sp2 Arr: "+Sp2Arriba+" - Ab: "+Sp2Abajo+" - Der: "+Sp2Derecha+" - Izq: "+Sp2Izquierda);
 
-//Me fijo si el vértice superior derecho de Sp1 está dentro de Sp2
+            //Me fijo si el vértice superior derecho de Sp1 está dentro de Sp2
             if (Sp1Arriba>=Sp2Abajo && Sp1Arriba<=Sp2Arriba &&
                     Sp1Derecha>=Sp2Izquierda && Sp1Derecha<=Sp2Derecha) {
                 HayInterseccion=true;
                 Log.d("IntEntSprites", "Intersección caso 1");
             }
-//Me fijo si el vértice superior izquierdo de Sp1 está dentro de Sp2
+            //Me fijo si el vértice superior izquierdo de Sp1 está dentro de Sp2
             if (Sp1Arriba>=Sp2Abajo && Sp1Arriba<=Sp2Arriba &&
                     Sp1Izquierda>=Sp2Izquierda && Sp1Izquierda<=Sp2Derecha) {
                 HayInterseccion=true;
                 Log.d("IntEntSprites", "Intersección caso 2");
             }
-//Me fijo si el vértice inferior derecho de Sp1 está dentro de Sp2
+            //Me fijo si el vértice inferior derecho de Sp1 está dentro de Sp2
             if (Sp1Abajo>=Sp2Abajo && Sp1Abajo<=Sp2Arriba &&
                     Sp1Derecha>=Sp2Izquierda && Sp1Derecha<=Sp2Derecha) {
                 HayInterseccion=true;
                 Log.d("IntEntSprites", "Intersección caso 3");
             }
-//Me fijo si el vértice inferior izquierdo de Sp1 está dentro de Sp2
-
+            //Me fijo si el vértice inferior izquierdo de Sp1 está dentro de Sp2
             if (Sp1Abajo>=Sp2Abajo && Sp1Abajo<=Sp2Arriba &&
                     Sp1Izquierda>=Sp2Izquierda && Sp1Izquierda<=Sp2Derecha) {
                 HayInterseccion=true;
                 Log.d("IntEntSprites", "Intersección caso 4");
             }
-//Me fijo si el vértice superior derecho de Sp2 esta dentro de Sp1
+            //Me fijo si el vértice superior derecho de Sp2 esta dentro de Sp1
             if (Sp2Arriba>=Sp1Abajo && Sp2Arriba<=Sp1Arriba &&
                     Sp2Derecha>=Sp1Izquierda && Sp2Derecha<=Sp1Derecha) {
                 HayInterseccion=true;
                 Log.d("IntEntSprites", "Intersección caso 5");
             }
-//Me fijo si el vértice superior izquierdo de Sp1 está dentro de Sp2
+            //Me fijo si el vértice superior izquierdo de Sp1 está dentro de Sp2
             if (Sp2Arriba>=Sp1Abajo && Sp2Arriba<=Sp1Arriba &&
                     Sp2Izquierda>=Sp1Izquierda && Sp2Izquierda<=Sp1Derecha) {
                 HayInterseccion=true;
                 Log.d("IntEntSprites", "Intersección caso 6");
             }
-//Me fijo si el vértice inferior derecho de Sp1 está dentro de Sp2
+            //Me fijo si el vértice inferior derecho de Sp1 está dentro de Sp2
             if (Sp2Abajo>=Sp1Abajo && Sp2Abajo<=Sp1Arriba &&
                     Sp2Derecha>=Sp1Izquierda && Sp2Derecha<=Sp1Derecha) {
                 HayInterseccion=true;
                 Log.d("IntEntSprites", "Intersección caso 7");
             }
-//Me fijo si el vértice inferior izquierdo de Sp1 está dentro de Sp2
+            //Me fijo si el vértice inferior izquierdo de Sp1 está dentro de Sp2
             if (Sp2Abajo>=Sp1Abajo && Sp2Abajo<=Sp1Arriba &&
                     Sp2Izquierda>=Sp1Izquierda && Sp2Izquierda<=Sp1Derecha) {
                 HayInterseccion=true;
@@ -388,7 +316,7 @@ public class clsJuego {
             return HayInterseccion;
         }
         public boolean InterseccionEntrePuntoySprite(Sprite SpriteAVerificar,
-            Float puntoXAVerificar, Float puntoYAVerificar) {
+                                                     Float puntoXAVerificar, Float puntoYAVerificar) {
             Boolean HayInterseccion=false;
             //Determino los bordes de cada Sprite
             Float SpArriba, SpAbajo, SpDerecha, SpIzquierda;
@@ -446,14 +374,6 @@ public class clsJuego {
                 _estaTocandoAlJugador=false;
             }
 
-            if (InterseccionEntrePuntoySprite(_Jugador2, xTocada, yTocada))
-            {
-                moverJugador2(xTocada,yTocada);
-                _estaTocandoAlJugador2=true;
-            }
-            else {
-                _estaTocandoAlJugador2=false;
-            }
 
             return true;
         }
@@ -467,40 +387,25 @@ public class clsJuego {
             if (_estaTocandoAlJugador)
             {
                 moverJugador(xTocada,yTocada);
-                if (InterseccionEntreSprites(_Jugador,_Jugador2))
-                {
-                    Log.d("COLLIDER","El jugador1 toco jugador2");
-                    Log.d("COLLIDER","Activo la secuncia jugador 2");
-                    MoveBy moverseArriba, moverseAbajo, moverseDerecha, moverseIzquierda;
-                    moverseArriba= MoveBy.action(1,0,300);
-                    moverseAbajo= MoveBy.action(1,0,-300);
-                    moverseDerecha= MoveBy.action(1,200,0);
-                    moverseIzquierda= MoveBy.action(1,-200,0);
 
-                    IntervalAction secuenciaEnFormaCuadrado;
-                    secuenciaEnFormaCuadrado= Sequence.actions(moverseArriba,moverseDerecha,moverseAbajo,moverseIzquierda);
-                    _Jugador2.runAction(secuenciaEnFormaCuadrado);
-                }
+                //IMPORTANTE
+                //ESTE CODIGO LO VAMOS A MODIFICAR EN INTERSECCION ENTE SPRITES PARA CUANDO EL ENEMIGO TOQUE AL JUGADOR PASE ALGO
+//                if (InterseccionEntreSprites(_Jugador,_Enemigo))
+//                {
+//                    Log.d("COLLIDER","El jugador1 toco jugador2");
+//                    Log.d("COLLIDER","Activo la secuncia jugador 2");
+//                    MoveBy moverseArriba, moverseAbajo, moverseDerecha, moverseIzquierda;
+//                    moverseArriba= MoveBy.action(1,0,300);
+//                    moverseAbajo= MoveBy.action(1,0,-300);
+//                    moverseDerecha= MoveBy.action(1,200,0);
+//                    moverseIzquierda= MoveBy.action(1,-200,0);
+//
+//                    IntervalAction secuenciaEnFormaCuadrado;
+//                    secuenciaEnFormaCuadrado= Sequence.actions(moverseArriba,moverseDerecha,moverseAbajo,moverseIzquierda);
+//                    _Enemigo.runAction(secuenciaEnFormaCuadrado);
+//                }
             }
-            if (_estaTocandoAlJugador2)
-            {
-                moverJugador2(xTocada,yTocada);
-                if (InterseccionEntreSprites(_Jugador,_Jugador2))
-                {
-                    Log.d("COLLIDER","El jugador2 toco jugador1");
-                    Log.d("COLLIDER","Activo la secuncia jugador 1");
-                    MoveBy moverseArriba, moverseAbajo, moverseDerecha, moverseIzquierda;
-                    moverseArriba= MoveBy.action(1,0,300);
-                    moverseAbajo= MoveBy.action(1,0,-300);
-                    moverseDerecha= MoveBy.action(1,200,0);
-                    moverseIzquierda= MoveBy.action(1,-200,0);
 
-                    IntervalAction secuenciaEnFormaCuadrado;
-                    secuenciaEnFormaCuadrado= Sequence.actions(moverseArriba,moverseDerecha,moverseAbajo,moverseIzquierda);
-                    _Jugador.runAction(secuenciaEnFormaCuadrado);
-
-                }
-            }
             return true;
         }
 
@@ -515,10 +420,7 @@ public class clsJuego {
                 _estaTocandoAlJugador=false;
             }
 
-            if (_estaTocandoAlJugador2==true)
-            {
-                _estaTocandoAlJugador2=false;
-            }
+
             return true;
         }
 
@@ -528,11 +430,7 @@ public class clsJuego {
             _Jugador.setPosition(xAmover,yAmover);
         }
 
-        void moverJugador2(float xAmover, float yAmover)
-        {
-            Log.d("MoverJugador" , "Me pidieron que me ubique en X:" +xAmover + "Y:" + yAmover);
-            _Jugador2.setPosition(xAmover,yAmover);
-        }
+
     }
 
 
