@@ -196,7 +196,7 @@ public class clsJuego {
 //            int cuadrante = r.nextInt(high-low) + low;
 
             ///HARDCODEADO
-            int cuadrante= 2;
+            int cuadrante= 4;
 
             //Numeros de cuadrantes LOGICA MODIFICADA DE LOS TPS ANTERIORES, enemigos aparecen afuera de la pantalla (cuadrado representa pantalla)
                //1
@@ -252,12 +252,10 @@ public class clsJuego {
 
                     break;
                 case 4:
-                    Log.d("Cuadrante", "La imagen de pos random aparecion en el cuadrante 4");
-                    int lowX4 = Math.round(_Pantalla.getWidth() / 2) + anchoJugadorArreglador1;
-                    int highX4 = Math.round(_Pantalla.getWidth()) - anchoJugadorArreglador1;
-                    int posicionX4 = r.nextInt(highX4 - lowX4) + lowX4;
+                    Log.d("Cuadrante", "La imagen de pos random aparecion en el cuadrante 2");
+                    int posicionX4 = 0 - anchoJugadorArreglador1;
 
-                    int lowY4 = Math.round(_Pantalla.getHeight() / 2) + alturaJugadorArreglador1;
+                    int lowY4 = 0 + alturaJugadorArreglador1;
                     int highY4 = Math.round(_Pantalla.getHeight()) - alturaJugadorArreglador1;
                     int posicionY4 = r.nextInt(highY4 - lowY4) + lowY4;
 
