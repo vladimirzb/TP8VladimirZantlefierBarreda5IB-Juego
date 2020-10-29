@@ -73,8 +73,8 @@ public class clsJuego {
             Log.d("CapaJuego", "Voy a ubicar el jugador en su posicion inicial");
             ponerJugador(3f);
 
-            Log.d("CapaJuego", "Voy a ubicar el segundo jugador en su posicion inicial");
-            ponerEnemigo(3f);
+            Log.d("CapaJuego", "LLamo al schedule del enemigo");
+            super.schedule("ponerEnemigo",3.0f);
 
 
             Log.d("CapaJuego", "Ubico al shiba gordo de fondo");
@@ -196,7 +196,7 @@ public class clsJuego {
 //            int cuadrante = r.nextInt(high-low) + low;
 
             ///HARDCODEADO
-            int cuadrante= 1;
+            int cuadrante= 3;
 
             //Numeros de cuadrantes LOGICA MODIFICADA DE LOS TPS ANTERIORES, enemigos aparecen afuera de la pantalla (cuadrado representa pantalla)
                //1
@@ -240,14 +240,12 @@ public class clsJuego {
 
                     break;
                 case 3:
-                    Log.d("Cuadrante", "La imagen de pos random aparecion en el cuadrante 3");
+                    Log.d("Cuadrante", "La imagen de pos random aparecion en el cuadrante 1");
                     int lowX3 = 0 + anchoJugadorArreglador1;
-                    int highX3 = Math.round(_Pantalla.getWidth() / 2) - anchoJugadorArreglador1;
+                    int highX3 = Math.round(_Pantalla.getWidth()) - anchoJugadorArreglador1;
                     int posicionX3 = r.nextInt(highX3 - lowX3) + lowX3;
 
-                    int lowY3 = Math.round(_Pantalla.getHeight() / 2) + alturaJugadorArreglador1;
-                    int highY3 = Math.round(_Pantalla.getHeight()) - alturaJugadorArreglador1;
-                    int posicionY3 = r.nextInt(highY3 - lowY3) + lowY3;
+                    int posicionY3 = 0 - alturaJugadorArreglador1 ;
 
 
                     Log.d("PosicionAperecida", "x:" + posicionX3 + "   y:" + posicionY3);
@@ -279,6 +277,7 @@ public class clsJuego {
             float posY = _Jugador.getPositionY();
             _Enemigo.runAction(MoveTo.action(3,posX,posY));
             super.addChild(_Enemigo,10);
+            
         }
 
         public void detectarColisiones(float deltaTiempo)
