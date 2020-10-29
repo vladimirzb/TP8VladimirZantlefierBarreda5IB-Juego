@@ -10,9 +10,11 @@ import org.cocos2d.actions.interval.ScaleBy;
 import org.cocos2d.actions.interval.Sequence;
 import org.cocos2d.layers.Layer;
 import org.cocos2d.nodes.Director;
+import org.cocos2d.nodes.Label;
 import org.cocos2d.nodes.Scene;
 import org.cocos2d.nodes.Sprite;
 import org.cocos2d.opengl.CCGLSurfaceView;
+import org.cocos2d.types.CCColor3B;
 import org.cocos2d.types.CCSize;
 
 import java.util.ArrayList;
@@ -25,6 +27,10 @@ public class clsJuego {
     Sprite _Jugador;
     Sprite _Enemigo;
     ArrayList _listaSprites;
+
+    //
+    Label _PuntajeLabel;
+    int _contPuntaje=0;
 
     public  clsJuego(CCGLSurfaceView VistaDelJuego)
     {
@@ -76,6 +82,11 @@ public class clsJuego {
             Log.d("CapaJuego", "LLamo al schedule del enemigo");
             super.schedule("ponerEnemigo",3.0f);
 
+            //PUNTAJE LOGICA
+            Log.d("CapaJuego", "LLamo a poner puntaje");
+            ponerPuntaje(1.0f);
+            super.schedule("puntajeContador",1.0f);
+
 
             Log.d("CapaJuego", "Ubico al shiba gordo de fondo");
             ponerImagenFondo();
@@ -88,6 +99,29 @@ public class clsJuego {
 
         }
 
+        public void ponerPuntaje(float diferenciaTiempo)
+        {
+            Log.d("PonerPuntaje", "Creo el label para el puntaje");
+            _PuntajeLabel= Label.label("Puntaje:0", "PUNTAJE" ,70);
+
+            Log.d("PonerPuntaje", "Lo ubico arriba centrado");
+            _PuntajeLabel.setPosition(_Pantalla.getWidth()/2,_Pantalla.getHeight() - _PuntajeLabel.getHeight()/2);
+
+            Log.d("PonerPuntaje", "Le pongo un color");
+            CCColor3B colorPuntaje;
+            colorPuntaje= new CCColor3B(128,255,255);
+            _PuntajeLabel.setColor(colorPuntaje);
+
+
+            Log.d("PonerPuntaje", "Lo agrego a la capa");
+            super.addChild(_PuntajeLabel,100);
+
+        }
+        public  void puntajeContador(float diferenciaTiempo)
+        {
+            _contPuntaje++;
+            _PuntajeLabel.setString("Puntaje:" + _contPuntaje );
+        }
         public void ponerJugador(float diferenciaTiempo)
         {
             Log.d("PonerJugador", "Le asigno la imagen grafica al Sprite del jugador");
