@@ -137,7 +137,7 @@ public class clsJuego {
 
             switch(cuadrante) {
                 case 1:
-                    Log.d("Cuadrante", "La imagen de pos random aparecion en el cuadrante 1");
+                    Log.d("Cuadrante", "El sprite enemigo aparecion en el cuadrante 1");
                     int lowX1 = 0 + anchoJugadorArreglador1;
                     int highX1 = Math.round(_Pantalla.getWidth()) - anchoJugadorArreglador1;
                     int posicionX1 = r.nextInt(highX1 - lowX1) + lowX1;
@@ -152,7 +152,7 @@ public class clsJuego {
 
                     break;
                 case 2:
-                    Log.d("Cuadrante", "La imagen de pos random aparecion en el cuadrante 2");
+                    Log.d("Cuadrante", "El sprite enemigo aparecion en el cuadrante 2");
                     int posicionX2 = Math.round(_Pantalla.getWidth()) + anchoJugadorArreglador1;
 
                     int lowY2 = 0 + alturaJugadorArreglador1;
@@ -166,7 +166,7 @@ public class clsJuego {
 
                     break;
                 case 3:
-                    Log.d("Cuadrante", "La imagen de pos random aparecion en el cuadrante 1");
+                    Log.d("Cuadrante", "El sprite enemigo aparecion en el cuadrante 3");
                     int lowX3 = 0 + anchoJugadorArreglador1;
                     int highX3 = Math.round(_Pantalla.getWidth()) - anchoJugadorArreglador1;
                     int posicionX3 = r.nextInt(highX3 - lowX3) + lowX3;
@@ -180,7 +180,7 @@ public class clsJuego {
 
                     break;
                 case 4:
-                    Log.d("Cuadrante", "La imagen de pos random aparecion en el cuadrante 2");
+                    Log.d("Cuadrante", "El sprite enemigo aparecion en el cuadrante 4");
                     int posicionX4 = 0 - anchoJugadorArreglador1;
 
                     int lowY4 = 0 + alturaJugadorArreglador1;
