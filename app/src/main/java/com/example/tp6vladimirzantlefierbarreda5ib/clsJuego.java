@@ -100,7 +100,7 @@ public class clsJuego {
             int posicionX1 = Math.round(_Pantalla.getWidth() / 2);
             int posicionY1 = Math.round(_Pantalla.getHeight() / 2);
             _Jugador.setPosition(posicionX1, posicionY1);
-            
+
 
             Log.d("PonerJugador", "Lo agrego a la capa");
             super.addChild(_Jugador,10);
@@ -119,12 +119,12 @@ public class clsJuego {
             Log.d("PonerJugador", "Le pongo su posicion inicial");
 
               Random r = new Random();
-//            int low = 1;
-//            int high = 5;
-//            int cuadrante = r.nextInt(high-low) + low;
+            int low = 1;
+            int high = 5;
+            int cuadrante = r.nextInt(high-low) + low;
 
             ///HARDCODEADO
-            int cuadrante= 4;
+//            int cuadrante= 4;
 
             //Numeros de cuadrantes LOGICA MODIFICADA DE LOS TPS ANTERIORES, enemigos aparecen afuera de la pantalla (cuadrado representa pantalla)
                //1
