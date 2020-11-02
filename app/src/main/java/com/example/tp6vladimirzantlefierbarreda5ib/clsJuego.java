@@ -3,12 +3,15 @@ package com.example.tp6vladimirzantlefierbarreda5ib;
 import android.util.Log;
 import android.view.MotionEvent;
 
+import org.cocos2d.actions.instant.CallFunc;
+import org.cocos2d.actions.instant.CallFuncN;
 import org.cocos2d.actions.interval.IntervalAction;
 import org.cocos2d.actions.interval.MoveBy;
 import org.cocos2d.actions.interval.MoveTo;
 import org.cocos2d.actions.interval.ScaleBy;
 import org.cocos2d.actions.interval.Sequence;
 import org.cocos2d.layers.Layer;
+import org.cocos2d.nodes.CocosNode;
 import org.cocos2d.nodes.Director;
 import org.cocos2d.nodes.Label;
 import org.cocos2d.nodes.Scene;
@@ -231,14 +234,29 @@ public class clsJuego {
                     break;
             }
 
-            Log.d("PonerEnemigo", "Lo agrego a la capa");
+
             float posX =  _Jugador.getPositionX();
             float posY = _Jugador.getPositionY();
-            _Enemigo.runAction(MoveTo.action(3,posX,posY));
             //Secuencias llamo a funcion para que se muera y recibe como paremtro el sprite que la llamo
+
+            Log.d("PonerEnemigo", "Comienzo la secuencia");
+            CallFuncN removerEnemigoFuncN;
+            removerEnemigoFuncN = CallFuncN.action(this, "removerEnemigo");
+
+            IntervalAction secuenciaEnFormaCuadrado;
+            MoveTo irAJugador =  MoveTo.action(3,posX,posY);
+            secuenciaEnFormaCuadrado= Sequence.actions(irAJugador,removerEnemigoFuncN);
+            _Enemigo.runAction(secuenciaEnFormaCuadrado);
+            Log.d("PonerEnemigo", "Lo agrego a la capa");
             super.addChild(_Enemigo,10);
 
             
+        }
+
+        public void removerEnemigo(CocosNode objetollamador)
+        {
+            Log.d("PonerEnemigo", "BorroEnemigo");
+            super.removeChild(objetollamador, true);
         }
 
         public void detectarColisiones(float deltaTiempo)
