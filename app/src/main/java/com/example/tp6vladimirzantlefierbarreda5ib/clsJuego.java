@@ -26,6 +26,7 @@ public class clsJuego {
     CCSize _Pantalla;
     Sprite _Jugador;
     Sprite _Enemigo;
+    //
     ArrayList _listaSprites;
 
     //
@@ -234,7 +235,9 @@ public class clsJuego {
             float posX =  _Jugador.getPositionX();
             float posY = _Jugador.getPositionY();
             _Enemigo.runAction(MoveTo.action(3,posX,posY));
+            //Secuencias llamo a funcion para que se muera y recibe como paremtro el sprite que la llamo
             super.addChild(_Enemigo,10);
+
             
         }
 
