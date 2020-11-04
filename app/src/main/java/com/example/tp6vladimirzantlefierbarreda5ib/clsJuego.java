@@ -21,6 +21,7 @@ import org.cocos2d.types.CCColor3B;
 import org.cocos2d.types.CCSize;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class clsJuego {
@@ -28,12 +29,13 @@ public class clsJuego {
     Boolean _estaTocandoAlJugador;
     CCSize _Pantalla;
     Sprite _Jugador;
-    Sprite _Enemigo;
+    ArrayList _listaEnemigos;
     //
     ArrayList _listaSprites;
-
+    int _vidaJugador=3;
     //
     Label _PuntajeLabel;
+    Label _vidaLabel;
     int _contPuntaje=0;
 
     public  clsJuego(CCGLSurfaceView VistaDelJuego)
@@ -84,6 +86,7 @@ public class clsJuego {
             ponerJugador(3f);
 
             Log.d("CapaJuego", "LLamo al schedule del enemigo");
+            _listaEnemigos = new ArrayList();
             super.schedule("ponerEnemigo",3.0f);
 
             //PUNTAJE LOGICA
@@ -91,12 +94,15 @@ public class clsJuego {
             ponerPuntaje(1.0f);
             super.schedule("puntajeContador",1.0f);
 
+            //VIDA
+            Log.d("CapaJuego", "LLamo a poner vida");
+            ponerVida(1.0f);
 
             Log.d("CapaJuego", "Ubico al shiba gordo de fondo");
             ponerImagenFondo();
 
-//            Log.d("CapaJuego", "Inicio el verificador de colisiones");
-//            super.schedule("detectarColisiones", 0.25f);
+            Log.d("CapaJuego", "Inicio el verificador de colisiones");
+            super.schedule("detectarColisiones", 0.25f);
 
             Log.d("CapaJuego", "Habilito el touch");
             setIsTouchEnabled(true);
@@ -121,6 +127,53 @@ public class clsJuego {
             super.addChild(_PuntajeLabel,100);
 
         }
+        public void ponerVida(float diferenciaTiempo)
+        {
+            Log.d("PonerPuntaje", "Creo el label para el puntaje");
+            _vidaLabel= Label.label("Vida: 3/3", "PUNTAJE" ,70);
+
+            Log.d("PonerPuntaje", "Lo ubico arriba centrado");
+            _vidaLabel.setPosition(_PuntajeLabel.getPositionX(),_PuntajeLabel.getPositionY() - _vidaLabel.getHeight()/2);
+
+            Log.d("PonerPuntaje", "Le pongo un color");
+            CCColor3B colorPuntaje;
+            colorPuntaje= new CCColor3B(128,255,255);
+            _vidaLabel.setColor(colorPuntaje);
+
+
+            Log.d("PonerPuntaje", "Lo agrego a la capa");
+            super.addChild(_vidaLabel,100);
+
+        }
+
+        public void ActualizarVida()
+        {
+
+            if (_vidaJugador!=0)
+            {
+                _vidaLabel.setString("Vida:" + _vidaJugador +  "/3");
+
+            }
+            else
+            {
+                _vidaLabel.setString("MORISTE");
+            }
+
+
+        }
+
+        public void RestarVida()
+        {
+
+
+            if (_vidaJugador!=0)
+            {
+                _vidaJugador = _vidaJugador - 1;
+
+            }
+        }
+
+
         public  void puntajeContador(float diferenciaTiempo)
         {
             _contPuntaje++;
@@ -148,7 +201,7 @@ public class clsJuego {
 
         public void ponerEnemigo(float diferenciaTiempo)
         {
-
+            Sprite _Enemigo;
             Log.d("PonerJugador", "Le asigno la imagen grafica al Sprite del jugador");
             _Enemigo= Sprite.sprite("jugador.jpg");
             int alturaJugadorArreglador1= Math.round(_Enemigo.getHeight()/2);
@@ -247,6 +300,8 @@ public class clsJuego {
             MoveTo irAJugador =  MoveTo.action(3,posX,posY);
             secuenciaEnFormaCuadrado= Sequence.actions(irAJugador,removerEnemigoFuncN);
             _Enemigo.runAction(secuenciaEnFormaCuadrado);
+            Log.d("PonerEnemigo", "Tamaño lista enemigos:" + _listaEnemigos.size());
+            _listaEnemigos.add(_Enemigo);
             Log.d("PonerEnemigo", "Lo agrego a la capa");
             super.addChild(_Enemigo,10);
 
@@ -259,6 +314,12 @@ public class clsJuego {
             super.removeChild(objetollamador, true);
         }
 
+        public void VerificarColliderEnemigosYJugador(float diferenciaTiempo)
+        {
+
+        }
+
+
         public void detectarColisiones(float deltaTiempo)
         {
             Log.d("DetectarColisiones", "Me fijo si algun enemigo choco al jugador");
@@ -269,11 +330,11 @@ public class clsJuego {
             spritesQueImpactaron= new ArrayList();
 
 
-            for (int punteroSprite=0; punteroSprite<_listaSprites.size(); punteroSprite++){
+            for (int punteroSprite=0; punteroSprite<_listaEnemigos.size(); punteroSprite++){
                 Log.d("DetectarColisiones", "Verifico el enemigo numero" + punteroSprite);
 
                 Sprite unSpriteAVerificar;
-                unSpriteAVerificar= (Sprite) _listaSprites.get(punteroSprite);
+                unSpriteAVerificar= (Sprite) _listaEnemigos.get(punteroSprite);
                 if(InterseccionEntreSprites(_Jugador,unSpriteAVerificar)){
                     huboColision=true;
                     super.removeChild(unSpriteAVerificar,true);
@@ -287,9 +348,12 @@ public class clsJuego {
 
                 for (int punteroSprite=spritesQueImpactaron.size()-1; punteroSprite>=0; punteroSprite--)
                 {
-                    _listaSprites.remove(punteroSprite);
+                    _listaEnemigos.remove(punteroSprite);
                 }
-                Log.d("DetectarColisiones", "Me quedan:" + _listaSprites.size());
+
+                RestarVida();
+                ActualizarVida();
+                Log.d("DetectarColisiones", "Me quedan:" + _listaEnemigos.size());
             }
 
         }
