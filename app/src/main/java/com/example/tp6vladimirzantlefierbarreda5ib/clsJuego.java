@@ -9,6 +9,7 @@ import org.cocos2d.actions.instant.CallFuncN;
 import org.cocos2d.actions.interval.IntervalAction;
 import org.cocos2d.actions.interval.MoveBy;
 import org.cocos2d.actions.interval.MoveTo;
+import org.cocos2d.actions.interval.RotateTo;
 import org.cocos2d.actions.interval.ScaleBy;
 import org.cocos2d.actions.interval.Sequence;
 import org.cocos2d.layers.Layer;
@@ -241,7 +242,7 @@ public class clsJuego {
         {
             Sprite _Enemigo;
             Log.d("PonerJugador", "Le asigno la imagen grafica al Sprite del jugador");
-            _Enemigo= Sprite.sprite("bullet_2_orange_x5.png");
+            _Enemigo= Sprite.sprite("balaCuadrada.png");
             int alturaJugadorArreglador1= Math.round(_Enemigo.getHeight()/2);
             int anchoJugadorArreglador1= Math.round(_Enemigo.getWidth()/2);
 
