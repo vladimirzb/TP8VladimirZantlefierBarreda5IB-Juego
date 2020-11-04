@@ -9,6 +9,7 @@ import org.cocos2d.actions.instant.CallFuncN;
 import org.cocos2d.actions.interval.IntervalAction;
 import org.cocos2d.actions.interval.MoveBy;
 import org.cocos2d.actions.interval.MoveTo;
+import org.cocos2d.actions.interval.RotateTo;
 import org.cocos2d.actions.interval.ScaleBy;
 import org.cocos2d.actions.interval.Sequence;
 import org.cocos2d.layers.Layer;
@@ -220,7 +221,7 @@ public class clsJuego {
         public void ponerJugador(float diferenciaTiempo)
         {
             Log.d("PonerJugador", "Le asigno la imagen grafica al Sprite del jugador");
-            _Jugador= Sprite.sprite("jugador.jpg");
+            _Jugador= Sprite.sprite("Aircraft_01_x2.png");
             int alturaJugadorArreglador1= Math.round(_Jugador.getHeight()/2);
             int anchoJugadorArreglador1= Math.round(_Jugador.getWidth()/2);
 
@@ -241,7 +242,7 @@ public class clsJuego {
         {
             Sprite _Enemigo;
             Log.d("PonerJugador", "Le asigno la imagen grafica al Sprite del jugador");
-            _Enemigo= Sprite.sprite("jugador.jpg");
+            _Enemigo= Sprite.sprite("balaCuadrada.png");
             int alturaJugadorArreglador1= Math.round(_Enemigo.getHeight()/2);
             int anchoJugadorArreglador1= Math.round(_Enemigo.getWidth()/2);
 
@@ -501,7 +502,7 @@ public class clsJuego {
         void ponerImagenFondo(){
             Sprite imagenFondo;
             Log.d("PonerFondo","Asigno el fondo del shiba gordito al sprite");
-            imagenFondo= Sprite.sprite("shibagorditoFondo.jpg");
+            imagenFondo= Sprite.sprite("marfondo.png");
 
             Log.d("PonerFondo","Lo ubico");
             imagenFondo.setPosition(_Pantalla.getWidth()/2, _Pantalla.getHeight()/2);
