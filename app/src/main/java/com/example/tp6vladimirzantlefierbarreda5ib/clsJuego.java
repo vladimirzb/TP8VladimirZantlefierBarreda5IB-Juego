@@ -43,6 +43,7 @@ public class clsJuego {
     ///Complejidad creciente
     int _contHastaTanto;
     float _velocidadMoveTo=3;
+    float _VelocidadAparecerEnemigo=3;
 
     public  clsJuego(CCGLSurfaceView VistaDelJuego)
     {
@@ -93,7 +94,7 @@ public class clsJuego {
 
             Log.d("CapaJuego", "LLamo al schedule del enemigo");
             _listaEnemigos = new ArrayList();
-            super.schedule("ponerEnemigo",3.0f);
+            super.schedule("ponerEnemigo",_VelocidadAparecerEnemigo);
 
             //PUNTAJE LOGICA
             Log.d("CapaJuego", "LLamo a poner puntaje");
@@ -194,13 +195,26 @@ public class clsJuego {
         {
             _contHastaTanto++;
             Log.d("contarHastaTanto", "Contador Hasta tanto: " + _contHastaTanto);
-            if (_contHastaTanto== 10)
+
+            if (_contHastaTanto== 6)
             {
-                _velocidadMoveTo = _velocidadMoveTo - 0.1f;
+                if (_velocidadMoveTo>0.9f && _VelocidadAparecerEnemigo>0.9f )
+                {
+                    //Que enemigos se muevan mas rapido
+                    _velocidadMoveTo = _velocidadMoveTo - 0.1f;
+
+                    //Que enemigos aparezcan mas rapidos
+                    _VelocidadAparecerEnemigo= _VelocidadAparecerEnemigo - 0.1f;
+                    super.unschedule("ponerEnemigo");
+                    super.schedule("ponerEnemigo",_VelocidadAparecerEnemigo);
+
+                }
+
+                //Reiniciar contador
                 _contHastaTanto=0;
                 Log.d("contarHastaTanto", "Contador Hasta se reseteo a 0 tanto: " + _contHastaTanto);
                 Log.d("contarHastaTanto", "Velocidad enemigos " + _velocidadMoveTo);
-
+                Log.d("contarHastaTanto", "Velocidad aparecer enemigos " + _VelocidadAparecerEnemigo);
             }
         }
         public void ponerJugador(float diferenciaTiempo)
