@@ -149,17 +149,26 @@ public class clsJuego {
         public void ActualizarVida()
         {
 
-            _vidaLabel.setString("Vida:" + _vidaJugador +  "/3");
+            if (_vidaJugador!=0)
+            {
+                _vidaLabel.setString("Vida:" + _vidaJugador +  "/3");
+
+            }
+            else
+            {
+                _vidaLabel.setString("MORISTE");
+            }
+
 
         }
 
         public void RestarVida()
         {
-            _vidaJugador = _vidaJugador - 1;
 
-            if (_vidaJugador==0)
+
+            if (_vidaJugador!=0)
             {
-                _vidaLabel.setString("MORISTE");
+                _vidaJugador = _vidaJugador - 1;
 
             }
         }
