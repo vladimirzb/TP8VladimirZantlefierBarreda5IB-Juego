@@ -1,5 +1,6 @@
 package com.example.tp6vladimirzantlefierbarreda5ib;
 
+import android.os.Debug;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -36,7 +37,12 @@ public class clsJuego {
     //
     Label _PuntajeLabel;
     Label _vidaLabel;
+
     int _contPuntaje=0;
+
+    ///Complejidad creciente
+    int _contHastaTanto;
+    float _velocidadMoveTo=3;
 
     public  clsJuego(CCGLSurfaceView VistaDelJuego)
     {
@@ -97,6 +103,10 @@ public class clsJuego {
             //VIDA
             Log.d("CapaJuego", "LLamo a poner vida");
             ponerVida(1.0f);
+
+            ///Complejidad creciente
+            super.schedule("contarHastaTanto",1.0f);
+
 
             Log.d("CapaJuego", "Ubico al shiba gordo de fondo");
             ponerImagenFondo();
@@ -178,6 +188,20 @@ public class clsJuego {
         {
             _contPuntaje++;
             _PuntajeLabel.setString("Puntaje:" + _contPuntaje );
+        }
+
+        public  void contarHastaTanto(float diferenciaTiempo)
+        {
+            _contHastaTanto++;
+            Log.d("contarHastaTanto", "Contador Hasta tanto: " + _contHastaTanto);
+            if (_contHastaTanto== 10)
+            {
+                _velocidadMoveTo = _velocidadMoveTo - 0.1f;
+                _contHastaTanto=0;
+                Log.d("contarHastaTanto", "Contador Hasta se reseteo a 0 tanto: " + _contHastaTanto);
+                Log.d("contarHastaTanto", "Velocidad enemigos " + _velocidadMoveTo);
+
+            }
         }
         public void ponerJugador(float diferenciaTiempo)
         {
@@ -297,7 +321,7 @@ public class clsJuego {
             removerEnemigoFuncN = CallFuncN.action(this, "removerEnemigo");
 
             IntervalAction secuenciaEnFormaCuadrado;
-            MoveTo irAJugador =  MoveTo.action(3,posX,posY);
+            MoveTo irAJugador =  MoveTo.action(_velocidadMoveTo,posX,posY);
             secuenciaEnFormaCuadrado= Sequence.actions(irAJugador,removerEnemigoFuncN);
             _Enemigo.runAction(secuenciaEnFormaCuadrado);
             Log.d("PonerEnemigo", "Tamaño lista enemigos:" + _listaEnemigos.size());
@@ -311,6 +335,7 @@ public class clsJuego {
         public void removerEnemigo(CocosNode objetollamador)
         {
             Log.d("PonerEnemigo", "BorroEnemigo");
+            _listaEnemigos.remove(objetollamador);
             super.removeChild(objetollamador, true);
         }
 
