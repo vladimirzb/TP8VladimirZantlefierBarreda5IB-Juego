@@ -35,6 +35,7 @@ public class clsJuego {
     int _vidaJugador=3;
     //
     Label _PuntajeLabel;
+    Label _vidaLabel;
     int _contPuntaje=0;
 
     public  clsJuego(CCGLSurfaceView VistaDelJuego)
@@ -93,6 +94,9 @@ public class clsJuego {
             ponerPuntaje(1.0f);
             super.schedule("puntajeContador",1.0f);
 
+            //VIDA
+            Log.d("CapaJuego", "LLamo a poner vida");
+            ponerVida(1.0f);
 
             Log.d("CapaJuego", "Ubico al shiba gordo de fondo");
             ponerImagenFondo();
@@ -123,6 +127,44 @@ public class clsJuego {
             super.addChild(_PuntajeLabel,100);
 
         }
+        public void ponerVida(float diferenciaTiempo)
+        {
+            Log.d("PonerPuntaje", "Creo el label para el puntaje");
+            _vidaLabel= Label.label("Vida: 3/3", "PUNTAJE" ,70);
+
+            Log.d("PonerPuntaje", "Lo ubico arriba centrado");
+            _vidaLabel.setPosition(_PuntajeLabel.getPositionX(),_PuntajeLabel.getPositionY() - _vidaLabel.getHeight()/2);
+
+            Log.d("PonerPuntaje", "Le pongo un color");
+            CCColor3B colorPuntaje;
+            colorPuntaje= new CCColor3B(128,255,255);
+            _vidaLabel.setColor(colorPuntaje);
+
+
+            Log.d("PonerPuntaje", "Lo agrego a la capa");
+            super.addChild(_vidaLabel,100);
+
+        }
+
+        public void ActualizarVida()
+        {
+
+            _vidaLabel.setString("Vida:" + _vidaJugador +  "/3");
+
+        }
+
+        public void RestarVida()
+        {
+            _vidaJugador = _vidaJugador - 1;
+
+            if (_vidaJugador==0)
+            {
+                _vidaLabel.setString("MORISTE");
+
+            }
+        }
+
+
         public  void puntajeContador(float diferenciaTiempo)
         {
             _contPuntaje++;
@@ -299,6 +341,9 @@ public class clsJuego {
                 {
                     _listaEnemigos.remove(punteroSprite);
                 }
+
+                RestarVida();
+                ActualizarVida();
                 Log.d("DetectarColisiones", "Me quedan:" + _listaEnemigos.size());
             }
 
