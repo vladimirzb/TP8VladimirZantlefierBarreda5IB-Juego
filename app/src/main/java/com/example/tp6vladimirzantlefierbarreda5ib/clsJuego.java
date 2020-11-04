@@ -96,6 +96,8 @@ public class clsJuego {
             Log.d("CapaJuego", "LLamo al schedule del enemigo");
             _listaEnemigos = new ArrayList();
             super.schedule("ponerEnemigo",_VelocidadAparecerEnemigo);
+            super.schedule("ponerEnemigo2",_VelocidadAparecerEnemigo);
+            super.schedule("ponerEnemigo3",_VelocidadAparecerEnemigo);
 
             //PUNTAJE LOGICA
             Log.d("CapaJuego", "LLamo a poner puntaje");
@@ -114,7 +116,7 @@ public class clsJuego {
             ponerImagenFondo();
 
             Log.d("CapaJuego", "Inicio el verificador de colisiones");
-            super.schedule("detectarColisiones", 0.25f);
+            super.schedule("detectarColisiones", 0.17f);
 
             Log.d("CapaJuego", "Habilito el touch");
             setIsTouchEnabled(true);
@@ -208,6 +210,12 @@ public class clsJuego {
                     _VelocidadAparecerEnemigo= _VelocidadAparecerEnemigo - 0.1f;
                     super.unschedule("ponerEnemigo");
                     super.schedule("ponerEnemigo",_VelocidadAparecerEnemigo);
+
+                    super.unschedule("ponerEnemigo2");
+                    super.schedule("ponerEnemigo2",_VelocidadAparecerEnemigo);
+
+                    super.unschedule("ponerEnemigo3");
+                    super.schedule("ponerEnemigo3",_VelocidadAparecerEnemigo);
 
                 }
 
@@ -345,6 +353,222 @@ public class clsJuego {
             super.addChild(_Enemigo,10);
 
             
+        }
+        public void ponerEnemigo2(float diferenciaTiempo)
+        {
+            Sprite _Enemigo;
+            Log.d("PonerEnemigo2", "Le asigno la imagen grafica al Sprite del PonerEnemigo2");
+            _Enemigo= Sprite.sprite("balaCuadrada.png");
+            int alturaJugadorArreglador1= Math.round(_Enemigo.getHeight()/2);
+            int anchoJugadorArreglador1= Math.round(_Enemigo.getWidth()/2);
+
+            Log.d("PonerEnemigo2", "Le pongo su posicion inicial");
+
+            Random r = new Random();
+            int low = 1;
+            int high = 5;
+            int cuadrante = r.nextInt(high-low) + low;
+
+            ///HARDCODEADO
+//            int cuadrante= 4;
+
+            //Numeros de cuadrantes LOGICA MODIFICADA DE LOS TPS ANTERIORES, enemigos aparecen afuera de la pantalla (cuadrado representa pantalla)
+            //1
+            ////////
+            //4 //    //  //2
+            //    //
+            ////////
+            //3
+            //Numeros de cuadrante voy a utilizar cuadrantes como en el TP 5 ya que me permite que jamas salga de la pantalla la imagen
+
+            switch(cuadrante) {
+                case 1:
+                    Log.d("Cuadrante", "El sprite enemigo aparecion en el cuadrante 1");
+                    int lowX1 = 0 + anchoJugadorArreglador1;
+                    int highX1 = Math.round(_Pantalla.getWidth()) - anchoJugadorArreglador1;
+                    int posicionX1 = r.nextInt(highX1 - lowX1) + lowX1;
+
+                    int posicionY1 = Math.round(_Pantalla.getHeight()) + alturaJugadorArreglador1 ;
+
+
+                    Log.d("PosicionAperecida", "x:" + posicionX1 + "   y:" + posicionY1);
+
+                    _Enemigo.setPosition(posicionX1, posicionY1);
+
+
+                    break;
+                case 2:
+                    Log.d("Cuadrante", "El sprite enemigo aparecion en el cuadrante 2");
+                    int posicionX2 = Math.round(_Pantalla.getWidth()) + anchoJugadorArreglador1;
+
+                    int lowY2 = 0 + alturaJugadorArreglador1;
+                    int highY2 = Math.round(_Pantalla.getHeight()) - alturaJugadorArreglador1;
+                    int posicionY2 = r.nextInt(highY2 - lowY2) + lowY2;
+
+
+                    Log.d("PosicionAperecida", "x:" + posicionX2 + "   y:" + posicionY2);
+
+                    _Enemigo.setPosition(posicionX2, posicionY2);
+
+                    break;
+                case 3:
+                    Log.d("Cuadrante", "El sprite enemigo aparecion en el cuadrante 3");
+                    int lowX3 = 0 + anchoJugadorArreglador1;
+                    int highX3 = Math.round(_Pantalla.getWidth()) - anchoJugadorArreglador1;
+                    int posicionX3 = r.nextInt(highX3 - lowX3) + lowX3;
+
+                    int posicionY3 = 0 - alturaJugadorArreglador1 ;
+
+
+                    Log.d("PosicionAperecida", "x:" + posicionX3 + "   y:" + posicionY3);
+
+                    _Enemigo.setPosition(posicionX3, posicionY3);
+
+                    break;
+                case 4:
+                    Log.d("Cuadrante", "El sprite enemigo aparecion en el cuadrante 4");
+                    int posicionX4 = 0 - anchoJugadorArreglador1;
+
+                    int lowY4 = 0 + alturaJugadorArreglador1;
+                    int highY4 = Math.round(_Pantalla.getHeight()) - alturaJugadorArreglador1;
+                    int posicionY4 = r.nextInt(highY4 - lowY4) + lowY4;
+
+
+                    Log.d("PosicionAperecida", "x:" + posicionX4 + "   y:" + posicionY4);
+
+                    _Enemigo.setPosition(posicionX4, posicionY4);
+
+
+                    break;
+            }
+
+
+            float posX =  _Jugador.getPositionX();
+            float posY = _Jugador.getPositionY();
+            //Secuencias llamo a funcion para que se muera y recibe como paremtro el sprite que la llamo
+
+            Log.d("PonerEnemigo2", "Comienzo la secuencia");
+            CallFuncN removerEnemigoFuncN;
+            removerEnemigoFuncN = CallFuncN.action(this, "removerEnemigo");
+
+            IntervalAction secuenciaEnFormaCuadrado;
+            MoveTo irAJugador =  MoveTo.action(_velocidadMoveTo,posX,posY);
+            secuenciaEnFormaCuadrado= Sequence.actions(irAJugador,removerEnemigoFuncN);
+            _Enemigo.runAction(secuenciaEnFormaCuadrado);
+            Log.d("PonerEnemigo2", "Tamaño lista enemigos:" + _listaEnemigos.size());
+            _listaEnemigos.add(_Enemigo);
+            Log.d("PonerEnemigo2", "Lo agrego a la capa");
+            super.addChild(_Enemigo,10);
+
+
+        }
+        public void ponerEnemigo3(float diferenciaTiempo)
+        {
+            Sprite _Enemigo;
+            Log.d("PonerEnemigo3", "Le asigno la imagen grafica al Sprite del PonerEnemigo2");
+            _Enemigo= Sprite.sprite("balaCuadrada.png");
+            int alturaJugadorArreglador1= Math.round(_Enemigo.getHeight()/2);
+            int anchoJugadorArreglador1= Math.round(_Enemigo.getWidth()/2);
+
+            Log.d("PonerEnemigo3", "Le pongo su posicion inicial");
+
+            Random r = new Random();
+            int low = 1;
+            int high = 5;
+            int cuadrante = r.nextInt(high-low) + low;
+
+            ///HARDCODEADO
+//            int cuadrante= 4;
+
+            //Numeros de cuadrantes LOGICA MODIFICADA DE LOS TPS ANTERIORES, enemigos aparecen afuera de la pantalla (cuadrado representa pantalla)
+            //1
+            ////////
+            //4 //    //  //2
+            //    //
+            ////////
+            //3
+            //Numeros de cuadrante voy a utilizar cuadrantes como en el TP 5 ya que me permite que jamas salga de la pantalla la imagen
+
+            switch(cuadrante) {
+                case 1:
+                    Log.d("Cuadrante", "El sprite enemigo aparecion en el cuadrante 1");
+                    int lowX1 = 0 + anchoJugadorArreglador1;
+                    int highX1 = Math.round(_Pantalla.getWidth()) - anchoJugadorArreglador1;
+                    int posicionX1 = r.nextInt(highX1 - lowX1) + lowX1;
+
+                    int posicionY1 = Math.round(_Pantalla.getHeight()) + alturaJugadorArreglador1 ;
+
+
+                    Log.d("PosicionAperecida", "x:" + posicionX1 + "   y:" + posicionY1);
+
+                    _Enemigo.setPosition(posicionX1, posicionY1);
+
+
+                    break;
+                case 2:
+                    Log.d("Cuadrante", "El sprite enemigo aparecion en el cuadrante 2");
+                    int posicionX2 = Math.round(_Pantalla.getWidth()) + anchoJugadorArreglador1;
+
+                    int lowY2 = 0 + alturaJugadorArreglador1;
+                    int highY2 = Math.round(_Pantalla.getHeight()) - alturaJugadorArreglador1;
+                    int posicionY2 = r.nextInt(highY2 - lowY2) + lowY2;
+
+
+                    Log.d("PosicionAperecida", "x:" + posicionX2 + "   y:" + posicionY2);
+
+                    _Enemigo.setPosition(posicionX2, posicionY2);
+
+                    break;
+                case 3:
+                    Log.d("Cuadrante", "El sprite enemigo aparecion en el cuadrante 3");
+                    int lowX3 = 0 + anchoJugadorArreglador1;
+                    int highX3 = Math.round(_Pantalla.getWidth()) - anchoJugadorArreglador1;
+                    int posicionX3 = r.nextInt(highX3 - lowX3) + lowX3;
+
+                    int posicionY3 = 0 - alturaJugadorArreglador1 ;
+
+
+                    Log.d("PosicionAperecida", "x:" + posicionX3 + "   y:" + posicionY3);
+
+                    _Enemigo.setPosition(posicionX3, posicionY3);
+
+                    break;
+                case 4:
+                    Log.d("Cuadrante", "El sprite enemigo aparecion en el cuadrante 4");
+                    int posicionX4 = 0 - anchoJugadorArreglador1;
+
+                    int lowY4 = 0 + alturaJugadorArreglador1;
+                    int highY4 = Math.round(_Pantalla.getHeight()) - alturaJugadorArreglador1;
+                    int posicionY4 = r.nextInt(highY4 - lowY4) + lowY4;
+
+
+                    Log.d("PosicionAperecida", "x:" + posicionX4 + "   y:" + posicionY4);
+
+                    _Enemigo.setPosition(posicionX4, posicionY4);
+
+
+                    break;
+            }
+
+
+            float posX =  _Jugador.getPositionX();
+            float posY = _Jugador.getPositionY();
+            //Secuencias llamo a funcion para que se muera y recibe como paremtro el sprite que la llamo
+
+            Log.d("PonerEnemigo3", "Comienzo la secuencia");
+            CallFuncN removerEnemigoFuncN;
+            removerEnemigoFuncN = CallFuncN.action(this, "removerEnemigo");
+
+            IntervalAction secuenciaEnFormaCuadrado;
+            MoveTo irAJugador =  MoveTo.action(_velocidadMoveTo,posX,posY);
+            secuenciaEnFormaCuadrado= Sequence.actions(irAJugador,removerEnemigoFuncN);
+            _Enemigo.runAction(secuenciaEnFormaCuadrado);
+            Log.d("PonerEnemigo3", "Tamaño lista enemigos:" + _listaEnemigos.size());
+            _listaEnemigos.add(_Enemigo);
+            Log.d("PonerEnemigo3", "Lo agrego a la capa");
+            super.addChild(_Enemigo,10);
+
+
         }
 
         public void removerEnemigo(CocosNode objetollamador)
