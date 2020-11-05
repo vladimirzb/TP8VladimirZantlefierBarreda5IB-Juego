@@ -1,5 +1,6 @@
 package com.example.tp6vladimirzantlefierbarreda5ib;
 
+import android.media.MediaPlayer;
 import android.os.Debug;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -91,6 +92,7 @@ public class clsJuego {
 
         public capaJuego()
         {
+            ponerMusicaDeFondo();
             Log.d("CapaJuego", "Bob nos construye la capita");
 
             Log.d("CapaJuego", "Voy a ubicar el jugador en su posicion inicial");
@@ -129,6 +131,22 @@ public class clsJuego {
             Log.d("CapaJuego", "Habilito el touch");
             setIsTouchEnabled(true);
 
+        }
+
+        void ponerMusicaDeFondo()
+        {
+            MediaPlayer _musicaDeFondo;
+            _musicaDeFondo= MediaPlayer.create(Director.sharedDirector().getActivity(),R.raw.musicadefondo);
+            _musicaDeFondo.setLooping(true);
+            _musicaDeFondo.start();
+        }
+
+        void sonidoExplosion()
+        {
+            MediaPlayer _ExplosionSonido;
+            _ExplosionSonido= MediaPlayer.create(Director.sharedDirector().getActivity(),R.raw.explosion);
+            _ExplosionSonido.setLooping(false);
+            _ExplosionSonido.start();
         }
         public  void vidaVerificador(float diferenciaTiempo)
         {
@@ -745,6 +763,7 @@ public class clsJuego {
                     _listaEnemigos.remove(punteroSprite);
                 }
 
+                sonidoExplosion();
                 RestarVida();
                 ActualizarVida();
                 Log.d("DetectarColisiones", "Me quedan:" + _listaEnemigos.size());
