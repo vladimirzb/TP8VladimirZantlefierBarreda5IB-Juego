@@ -140,6 +140,14 @@ public class clsJuego {
             _musicaDeFondo.setLooping(true);
             _musicaDeFondo.start();
         }
+
+        void sonidoExplosion()
+        {
+            MediaPlayer _ExplosionSonido;
+            _ExplosionSonido= MediaPlayer.create(Director.sharedDirector().getActivity(),R.raw.explosion);
+            _ExplosionSonido.setLooping(false);
+            _ExplosionSonido.start();
+        }
         public  void vidaVerificador(float diferenciaTiempo)
         {
 
@@ -755,6 +763,7 @@ public class clsJuego {
                     _listaEnemigos.remove(punteroSprite);
                 }
 
+                sonidoExplosion();
                 RestarVida();
                 ActualizarVida();
                 Log.d("DetectarColisiones", "Me quedan:" + _listaEnemigos.size());
