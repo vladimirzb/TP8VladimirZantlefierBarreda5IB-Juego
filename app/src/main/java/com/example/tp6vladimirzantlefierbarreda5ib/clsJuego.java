@@ -32,9 +32,12 @@ public class clsJuego {
     CCSize _Pantalla;
     Sprite _Jugador;
     ArrayList _listaEnemigos;
+    ArrayList _listaCorazones;
     //
     ArrayList _listaSprites;
+
     int _vidaJugador=3;
+    int _contHastaTantoVIDAVERIFICADOR;
     //
     Label _PuntajeLabel;
     Label _vidaLabel;
@@ -105,8 +108,12 @@ public class clsJuego {
             super.schedule("puntajeContador",1.0f);
 
             //VIDA
+            _listaCorazones = new ArrayList();
             Log.d("CapaJuego", "LLamo a poner vida");
             ponerVida(1.0f);
+            super.schedule("vidaVerificador",1.0f);
+
+
 
             ///Complejidad creciente
             super.schedule("contarHastaTanto",1.0f);
@@ -116,10 +123,119 @@ public class clsJuego {
             ponerImagenFondo();
 
             Log.d("CapaJuego", "Inicio el verificador de colisiones");
-            super.schedule("detectarColisiones", 0.17f);
+            super.schedule("detectarColisiones", 0.2f);
 
             Log.d("CapaJuego", "Habilito el touch");
             setIsTouchEnabled(true);
+
+        }
+        public  void vidaVerificador(float diferenciaTiempo)
+        {
+
+                if (_vidaJugador<3)
+                {
+                    _contHastaTantoVIDAVERIFICADOR ++ ;
+                    Log.d("vidaVerificador","contador:" + _contHastaTantoVIDAVERIFICADOR);
+                    if (_contHastaTantoVIDAVERIFICADOR==15)
+                    {
+                        Log.d("vidaVerificador","Pongo corazon");
+                        ponerCorazon();
+                        _contHastaTantoVIDAVERIFICADOR=0;
+                    }
+                }
+        }
+
+        public void ponerCorazon()
+        {
+            Sprite _Corazon;
+            Log.d("PonerCorazon", "Le asigno la imagen grafica al Sprite del jugador");
+            _Corazon= Sprite.sprite("heart_020.png");
+            int alturaJugadorArreglador1= Math.round(_Corazon.getHeight()/2);
+            int anchoJugadorArreglador1= Math.round(_Corazon.getWidth()/2);
+
+            Log.d("PonerCorazon", "Le pongo su posicion inicial");
+
+            Random r = new Random();
+            int low = 1;
+            int high = 5;
+            int cuadrante = r.nextInt(high-low) + low;
+
+            //Numeros de cuadrantes
+            //3 4 //
+            //1 2 //
+            //Numeros de cuadrante voy a utilizar cuadrantes como en el TP 5 ya que me permite que jamas salga de la pantalla la imagen
+            switch(cuadrante) {
+                case 1:
+                    Log.d("Cuadrante", "La imagen de pos random aparecion en el cuadrante 1");
+                    int lowX1 = 0 + anchoJugadorArreglador1;
+                    int highX1 = Math.round(_Pantalla.getWidth() / 2) - anchoJugadorArreglador1;
+                    int posicionX1 = r.nextInt(highX1 - lowX1) + lowX1;
+
+                    int lowY1 = 0 + alturaJugadorArreglador1;
+                    int highY1 = Math.round(_Pantalla.getHeight() / 2) - alturaJugadorArreglador1;
+                    int posicionY1 = r.nextInt(highY1 - lowY1) + lowY1;
+
+
+                    Log.d("PosicionAperecida", "x:" + posicionX1 + "   y:" + posicionY1);
+
+                    _Corazon.setPosition(posicionX1, posicionY1);
+
+
+                    break;
+                case 2:
+                    Log.d("Cuadrante", "La imagen de pos random aparecion en el cuadrante 2");
+                    int lowX2 = Math.round(_Pantalla.getWidth() / 2) + anchoJugadorArreglador1;
+                    int highX2 = Math.round(_Pantalla.getWidth()) - anchoJugadorArreglador1;
+                    int posicionX2 = r.nextInt(highX2 - lowX2) + lowX2;
+
+                    int lowY2 = 0 + alturaJugadorArreglador1;
+                    int highY2 = Math.round(_Pantalla.getHeight() / 2) - alturaJugadorArreglador1;
+                    int posicionY2 = r.nextInt(highY2 - lowY2) + lowY2;
+
+
+                    Log.d("PosicionAperecida", "x:" + posicionX2 + "   y:" + posicionY2);
+
+                    _Corazon.setPosition(posicionX2, posicionY2);
+
+                    break;
+                case 3:
+                    Log.d("Cuadrante", "La imagen de pos random aparecion en el cuadrante 3");
+                    int lowX3 = 0 + anchoJugadorArreglador1;
+                    int highX3 = Math.round(_Pantalla.getWidth() / 2) - anchoJugadorArreglador1;
+                    int posicionX3 = r.nextInt(highX3 - lowX3) + lowX3;
+
+                    int lowY3 = Math.round(_Pantalla.getHeight() / 2) + alturaJugadorArreglador1;
+                    int highY3 = Math.round(_Pantalla.getHeight()) - alturaJugadorArreglador1;
+                    int posicionY3 = r.nextInt(highY3 - lowY3) + lowY3;
+
+
+                    Log.d("PosicionAperecida", "x:" + posicionX3 + "   y:" + posicionY3);
+
+                    _Corazon.setPosition(posicionX3, posicionY3);
+
+                    break;
+                case 4:
+                    Log.d("Cuadrante", "La imagen de pos random aparecion en el cuadrante 4");
+                    int lowX4 = Math.round(_Pantalla.getWidth() / 2) + anchoJugadorArreglador1;
+                    int highX4 = Math.round(_Pantalla.getWidth()) - anchoJugadorArreglador1;
+                    int posicionX4 = r.nextInt(highX4 - lowX4) + lowX4;
+
+                    int lowY4 = Math.round(_Pantalla.getHeight() / 2) + alturaJugadorArreglador1;
+                    int highY4 = Math.round(_Pantalla.getHeight()) - alturaJugadorArreglador1;
+                    int posicionY4 = r.nextInt(highY4 - lowY4) + lowY4;
+
+
+                    Log.d("PosicionAperecida", "x:" + posicionX4 + "   y:" + posicionY4);
+
+                    _Corazon.setPosition(posicionX4, posicionY4);
+
+                    break;
+            }
+
+            Log.d("PonerCorazon", "Lo agrego a la capa");
+            _listaCorazones.add(_Corazon);
+            super.addChild(_Corazon,10);
+
 
         }
 
@@ -193,6 +309,8 @@ public class clsJuego {
             _contPuntaje++;
             _PuntajeLabel.setString("Puntaje:" + _contPuntaje );
         }
+
+
 
         public  void contarHastaTanto(float diferenciaTiempo)
         {
