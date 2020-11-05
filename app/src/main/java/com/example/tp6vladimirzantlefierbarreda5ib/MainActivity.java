@@ -27,9 +27,9 @@ public class MainActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-        clsJuego JuegoVladi;
-        JuegoVladi = new clsJuego(VistaPrincipal);
-        JuegoVladi.ComenzarJuego();
+        clsSplashScreen splash;
+        splash = new clsSplashScreen(VistaPrincipal);
+        splash.ComenzarJuego();
 
     }
 }
