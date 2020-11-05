@@ -791,6 +791,7 @@ public class clsJuego {
                 Sprite unSpriteAVerificar;
                 unSpriteAVerificar= (Sprite) _listaCorazones.get(punteroSprite);
                 if(InterseccionEntreSprites(_Jugador,unSpriteAVerificar)){
+                    unSpriteAVerificar.setPosition(-1000,-1000);
                     huboColision=true;
                     super.removeChild(unSpriteAVerificar,true);
                     spritesQueImpactaron.add(punteroSprite);
