@@ -94,6 +94,12 @@ public class clsGameOver{
 
         void ponerBotones()
         {
+
+
+
+
+
+
             int posicionX1 = Math.round(_Pantalla.getWidth() / 2);
             int posicionY1 = Math.round(_Pantalla.getHeight() / 2);
 
@@ -113,6 +119,22 @@ public class clsGameOver{
             menuDeBoton= Menu.menu(botonPlay);
             menuDeBoton.setPosition(0,0);
             super.addChild(menuDeBoton);
+
+
+            Log.d("PonerJugador", "Le asigno la imagen grafica al Sprite del jugador");
+            Sprite gameOverimg= Sprite.sprite("gameover.png");
+            int alturaJugadorArreglador1= Math.round(gameOverimg.getHeight()/2);
+            int anchoJugadorArreglador1= Math.round(gameOverimg.getWidth()/2);
+
+
+            Log.d("PonerJugador", "Le pongo su posicion inicial");
+            int posicionX11 = Math.round(_Pantalla.getWidth() / 2);
+            float posicionY11 = menuDeBoton.getPositionY() + alturaJugadorArreglador1;
+            gameOverimg.setPosition(posicionX11, posicionY11);
+
+
+            Log.d("PonerJugador", "Lo agrego a la capa");
+            super.addChild(gameOverimg,10);
         }
 
         public  void presionaBotonPlay()
