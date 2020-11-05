@@ -134,12 +134,9 @@ public class clsSplashScreen {
         public  void presionaBotonPlay()
         {
             Log.d("BotonPlay", "Se presiono el boton de play");
-            MainActivity activida = (MainActivity) Director.sharedDirector().getActivity();
-
             _musicaDeFondo.stop();
-            clsJuego juego;
-            juego = new clsJuego(_VistaDelJuego);
-            juego.ComenzarJuego();
+            MainActivity activida = (MainActivity) Director.sharedDirector().getActivity();
+            activida.Juego();
 
         }
 

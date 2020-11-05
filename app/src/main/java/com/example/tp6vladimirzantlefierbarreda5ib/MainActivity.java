@@ -32,4 +32,10 @@ public class MainActivity extends Activity {
         splash.ComenzarJuego();
 
     }
+
+    public  void Juego(){
+        clsJuego juego;
+        juego = new clsJuego(VistaPrincipal);
+        juego.ComenzarJuego();
+    }
 }
