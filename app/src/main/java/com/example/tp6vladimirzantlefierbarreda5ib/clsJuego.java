@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Random;
 
 public class clsJuego {
+    MediaPlayer _musicaDeFondo;
     CCGLSurfaceView _VistaDelJuego;
     Boolean _estaTocandoAlJugador;
     CCSize _Pantalla;
@@ -135,7 +136,7 @@ public class clsJuego {
 
         void ponerMusicaDeFondo()
         {
-            MediaPlayer _musicaDeFondo;
+
             _musicaDeFondo= MediaPlayer.create(Director.sharedDirector().getActivity(),R.raw.musicadefondo);
             _musicaDeFondo.setLooping(true);
             _musicaDeFondo.start();
@@ -306,6 +307,10 @@ public class clsJuego {
             else
             {
                 _vidaLabel.setString("MORISTE");
+                Log.d("BotonPlay", "Se presiono el boton de play");
+                _musicaDeFondo.stop();
+                MainActivity activida = (MainActivity) Director.sharedDirector().getActivity();
+                activida.GameOver();
             }
 
 

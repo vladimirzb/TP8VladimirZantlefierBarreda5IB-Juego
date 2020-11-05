@@ -38,4 +38,11 @@ public class MainActivity extends Activity {
         juego = new clsJuego(VistaPrincipal);
         juego.ComenzarJuego();
     }
+
+    public  void GameOver()
+    {
+        clsGameOver gameOver;
+        gameOver = new clsGameOver(VistaPrincipal);
+        gameOver.ComenzarJuego();
+    }
 }
