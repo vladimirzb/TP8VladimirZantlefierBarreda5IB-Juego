@@ -1,5 +1,6 @@
 package com.example.tp6vladimirzantlefierbarreda5ib;
 
+import android.media.MediaPlayer;
 import android.os.Debug;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -91,6 +92,7 @@ public class clsJuego {
 
         public capaJuego()
         {
+            ponerMusicaDeFondo();
             Log.d("CapaJuego", "Bob nos construye la capita");
 
             Log.d("CapaJuego", "Voy a ubicar el jugador en su posicion inicial");
@@ -129,6 +131,14 @@ public class clsJuego {
             Log.d("CapaJuego", "Habilito el touch");
             setIsTouchEnabled(true);
 
+        }
+
+        void ponerMusicaDeFondo()
+        {
+            MediaPlayer _musicaDeFondo;
+            _musicaDeFondo= MediaPlayer.create(Director.sharedDirector().getActivity(),R.raw.musicadefondo);
+            _musicaDeFondo.setLooping(true);
+            _musicaDeFondo.start();
         }
         public  void vidaVerificador(float diferenciaTiempo)
         {
