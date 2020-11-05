@@ -740,7 +740,7 @@ public class clsJuego {
 
             ArrayList spritesQueImpactaron;
             spritesQueImpactaron= new ArrayList();
-
+            Log.d("DetectarColisiones", "Me quedan antes de eliminar:" + _listaEnemigos.size());
 
             for (int punteroSprite=0; punteroSprite<_listaEnemigos.size(); punteroSprite++){
                 Log.d("DetectarColisiones", "Verifico el enemigo numero" + punteroSprite);
@@ -748,8 +748,12 @@ public class clsJuego {
                 Sprite unSpriteAVerificar;
                 unSpriteAVerificar= (Sprite) _listaEnemigos.get(punteroSprite);
                 if(InterseccionEntreSprites(_Jugador,unSpriteAVerificar)){
+                    unSpriteAVerificar.setPosition(-1000,-1000);
                     huboColision=true;
+                    Log.d("DetectarColisiones", "posicion sprite a verificar X=" + unSpriteAVerificar.getPositionX() + "POS Y:" +unSpriteAVerificar.getPositionY());
+                    Log.d("DetectarColisiones", "posicion jugador X=" + _Jugador.getPositionX() + "POS Y:" + _Jugador.getPositionY());
                     super.removeChild(unSpriteAVerificar,true);
+                    Log.d("DetectarColisiones", "Choque contra el sprite:" + punteroSprite );
                     spritesQueImpactaron.add(punteroSprite);
                 }
             }
@@ -757,6 +761,7 @@ public class clsJuego {
             if (huboColision==true)
             {
                 Log.d("DetectarColisiones", "Hubo una colision");
+                Log.d("DetectarColisiones", "Me quedan en sprites que impactaron" + spritesQueImpactaron.size());
 
                 for (int punteroSprite=spritesQueImpactaron.size()-1; punteroSprite>=0; punteroSprite--)
                 {
@@ -786,6 +791,7 @@ public class clsJuego {
                 Sprite unSpriteAVerificar;
                 unSpriteAVerificar= (Sprite) _listaCorazones.get(punteroSprite);
                 if(InterseccionEntreSprites(_Jugador,unSpriteAVerificar)){
+                    unSpriteAVerificar.setPosition(-1000,-1000);
                     huboColision=true;
                     super.removeChild(unSpriteAVerificar,true);
                     spritesQueImpactaron.add(punteroSprite);
