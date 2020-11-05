@@ -31,26 +31,10 @@ import java.util.Random;
 
 public class clsSplashScreen {
     CCGLSurfaceView _VistaDelJuego;
-    Boolean _estaTocandoAlJugador;
     CCSize _Pantalla;
-    Sprite _Jugador;
-    ArrayList _listaEnemigos;
-    ArrayList _listaCorazones;
-    //
-    ArrayList _listaSprites;
+    MediaPlayer _musicaDeFondo;
 
-    int _vidaJugador=3;
-    int _contHastaTantoVIDAVERIFICADOR;
-    //
-    Label _PuntajeLabel;
-    Label _vidaLabel;
 
-    int _contPuntaje=0;
-
-    ///Complejidad creciente
-    int _contHastaTanto;
-    float _velocidadMoveTo=3;
-    float _VelocidadAparecerEnemigo=3;
 
     public  clsSplashScreen(CCGLSurfaceView VistaDelJuego)
     {
@@ -110,7 +94,7 @@ public class clsSplashScreen {
 
         void ponerMusicaDeFondo()
         {
-            MediaPlayer _musicaDeFondo;
+
             _musicaDeFondo= MediaPlayer.create(Director.sharedDirector().getActivity(),R.raw.musicadefondo);
             _musicaDeFondo.setLooping(true);
             _musicaDeFondo.start();
@@ -150,7 +134,12 @@ public class clsSplashScreen {
         public  void presionaBotonPlay()
         {
             Log.d("BotonPlay", "Se presiono el boton de play");
+            MainActivity activida = (MainActivity) Director.sharedDirector().getActivity();
 
+            _musicaDeFondo.stop();
+            clsJuego juego;
+            juego = new clsJuego(_VistaDelJuego);
+            juego.ComenzarJuego();
 
         }
 
