@@ -112,6 +112,7 @@ public class clsJuego {
             Log.d("CapaJuego", "LLamo a poner vida");
             ponerVida(1.0f);
             super.schedule("vidaVerificador",1.0f);
+            super.schedule("detectarColisionesCORAZONES", 0.25f);
 
 
 
@@ -132,11 +133,11 @@ public class clsJuego {
         public  void vidaVerificador(float diferenciaTiempo)
         {
 
-                if (_vidaJugador<3)
+                if (_vidaJugador<3 && _listaCorazones.size() ==0 )
                 {
                     _contHastaTantoVIDAVERIFICADOR ++ ;
                     Log.d("vidaVerificador","contador:" + _contHastaTantoVIDAVERIFICADOR);
-                    if (_contHastaTantoVIDAVERIFICADOR==15)
+                    if (_contHastaTantoVIDAVERIFICADOR==5)
                     {
                         Log.d("vidaVerificador","Pongo corazon");
                         ponerCorazon();
@@ -299,6 +300,17 @@ public class clsJuego {
             if (_vidaJugador!=0)
             {
                 _vidaJugador = _vidaJugador - 1;
+
+            }
+        }
+
+        public void SumarVida()
+        {
+
+
+            if (_vidaJugador<3)
+            {
+                _vidaJugador = _vidaJugador + 1;
 
             }
         }
@@ -736,6 +748,43 @@ public class clsJuego {
                 RestarVida();
                 ActualizarVida();
                 Log.d("DetectarColisiones", "Me quedan:" + _listaEnemigos.size());
+            }
+
+        }
+        public void detectarColisionesCORAZONES(float deltaTiempo)
+        {
+            Log.d("DetectarColisionesCORAZ", "Me fijo si algun enemigo choco al jugador");
+            boolean huboColision;
+            huboColision=false;
+
+            ArrayList spritesQueImpactaron;
+            spritesQueImpactaron= new ArrayList();
+
+
+            for (int punteroSprite=0; punteroSprite<_listaCorazones.size(); punteroSprite++){
+                Log.d("DetectarColisionesCORAZ", "Verifico el corazon numero" + punteroSprite);
+
+                Sprite unSpriteAVerificar;
+                unSpriteAVerificar= (Sprite) _listaCorazones.get(punteroSprite);
+                if(InterseccionEntreSprites(_Jugador,unSpriteAVerificar)){
+                    huboColision=true;
+                    super.removeChild(unSpriteAVerificar,true);
+                    spritesQueImpactaron.add(punteroSprite);
+                }
+            }
+
+            if (huboColision==true)
+            {
+                Log.d("DetectarColisionesCORAZ", "Hubo una colision");
+
+                for (int punteroSprite=spritesQueImpactaron.size()-1; punteroSprite>=0; punteroSprite--)
+                {
+                    _listaCorazones.remove(punteroSprite);
+                }
+
+                SumarVida();
+                ActualizarVida();
+                Log.d("DetectarColisionesCORAZ", "Me quedan:" + _listaCorazones.size());
             }
 
         }
